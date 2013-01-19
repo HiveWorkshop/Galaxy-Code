@@ -1,0 +1,9 @@
+static const byte BIT_ONE = 1;
+
+byte getBit(byte bits, byte index) 		{ return bits & (BIT_ONE << index);		}
+byte setBit(byte bits, byte index) 		{ return bits | (BIT_ONE << index);		}
+byte clearBit(byte bits, byte index) 	{ return bits & (~BIT_ONE << index);	}
+
+int getBitInt(int bits, byte index)		{ return bits & (1 << index);			}
+int setBitInt(int bits, byte index)		{ return bits | (1 << index); 			}
+int clearBitInt(int bits, byte index)	{ return bits & (~1 << index);			}

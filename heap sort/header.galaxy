@@ -1,0 +1,4 @@
+//codecodex.com/wiki/Heapsort#C.2FC.2B.2B
+
+static int heapSortCompareDelegate(int pointer1, int pointer2);
+void heapSort(int arr, funcref<heapSortCompareDelegate> compare);
