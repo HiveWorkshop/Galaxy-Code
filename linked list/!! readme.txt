@@ -4,7 +4,7 @@ Details
 
 Status
 
-	Not Finished
+	Finished
 
 Requirements
 

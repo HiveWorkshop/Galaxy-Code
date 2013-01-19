@@ -23,13 +23,19 @@ int stackGetPointerBlock(int node)      	{ return memoryInt[node + DATA];    			
 //  - functions
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-void stackPush(int stack) {
+int stackPushBlock(int stack) {
     int node = getMemoryBlockAddress(allocate(2, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
 
     memoryInt[node + DATA] = getMemoryBlockAddress(allocate(1, memoryInt[stack + MEMORY_TYPE]), memoryInt[stack + MEMORY_TYPE]);
 
     memoryInt[node] = memoryInt[stack];
     memoryInt[stack] = node;
+	
+	return memoryInt[node + DATA];
+} //stackPushBlock
+
+int stackPush(int stack) {
+	return getPointerAddress(stackPushBlock(stack), memoryInt[stack + MEMORY_TYPE]);
 } //stackPush
 
 void stackPop(int stack) {
@@ -47,14 +53,13 @@ void stackClear(int stack) {
     int node = memoryInt[stack];
 	int memoryType = memoryInt[stack + MEMORY_TYPE];
 
+	memoryInt[stack] = -1;
     while (node != -1) {
+		stack = memoryInt[node];
 		deallocateEx(getPointerAddress(memoryInt[node + DATA], memoryType), memoryType);
         deallocateEx(getPointerAddress(node, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
-		
-        node = memoryInt[node];
+        node = stack;
     }
-
-    memoryInt[stack] = -1;
 } //stackClear
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
