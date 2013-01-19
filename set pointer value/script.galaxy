@@ -1,0 +1,178 @@
+static void setPointerAbilcmd(int pointer, int pointerValue) {
+	memoryAbilcmd[pointer] = memoryAbilcmd[pointerValue];
+}
+
+static void setPointerAifilter(int pointer, int pointerValue) {
+	memoryAifilter[pointer] = memoryAifilter[pointerValue];
+}
+
+static void setPointerActor(int pointer, int pointerValue) {
+	memoryActor[pointer] = memoryActor[pointerValue];
+}
+
+static void setPointerBool(int pointer, int pointerValue) {
+	memoryBool[pointer] = memoryBool[pointerValue];
+}
+
+static void setPointerBank(int pointer, int pointerValue) {
+	memoryBank[pointer] = memoryBank[pointerValue];
+}
+
+static void setPointerByte(int pointer, int pointerValue) {
+	memoryByte[pointer] = memoryByte[pointerValue];
+}
+
+static void setPointerCamerainfo(int pointer, int pointerValue) {
+	memoryCamerainfo[pointer] = memoryCamerainfo[pointerValue];
+}
+
+static void setPointerColor(int pointer, int pointerValue) {
+	memoryColor[pointer] = memoryColor[pointerValue];
+}
+
+static void setPointerDoodad(int pointer, int pointerValue) {
+	memoryDoodad[pointer] = memoryDoodad[pointerValue];
+}
+
+static void setPointerFixed(int pointer, int pointerValue) {
+	memoryFixed[pointer] = memoryFixed[pointerValue];
+}
+
+static void setPointerText(int pointer, int pointerValue) {
+	memoryText[pointer] = memoryText[pointerValue];
+}
+
+static void setPointerMarker(int pointer, int pointerValue) {
+	memoryMarker[pointer] = memoryMarker[pointerValue];
+}
+
+static void setPointerOrder(int pointer, int pointerValue) {
+	memoryOrder[pointer] = memoryOrder[pointerValue];
+}
+
+static void setPointerPlayergroup(int pointer, int pointerValue) {
+	memoryPlayergroup[pointer] = memoryPlayergroup[pointerValue];
+}
+
+static void setPointerPoint(int pointer, int pointerValue) {
+	memoryPoint[pointer] = memoryPoint[pointerValue];
+}
+
+static void setPointerRegion(int pointer, int pointerValue) {
+	memoryRegion[pointer] = memoryRegion[pointerValue];
+}
+
+static void setPointerSound(int pointer, int pointerValue) {
+	memorySound[pointer] = memorySound[pointerValue];
+}
+
+static void setPointerSoundlink(int pointer, int pointerValue) {
+	memorySoundlink[pointer] = memorySoundlink[pointerValue];
+}
+
+static void setPointerString(int pointer, int pointerValue) {
+	memoryString[pointer] = memoryString[pointerValue];
+}
+
+static void setPointerTimer(int pointer, int pointerValue) {
+	memoryTimer[pointer] = memoryTimer[pointerValue];
+}
+
+static void setPointerTransmissionsource(int pointer, int pointerValue) {
+	memoryTransmissionsource[pointer] = memoryTransmissionsource[pointerValue];
+}
+
+static void setPointerTrigger(int pointer, int pointerValue) {
+	memoryTrigger[pointer] = memoryTrigger[pointerValue];
+}
+
+static void setPointerUnit(int pointer, int pointerValue) {
+	memoryUnit[pointer] = memoryUnit[pointerValue];
+}
+
+static void setPointerUnitfilter(int pointer, int pointerValue) {
+	memoryUnitfilter[pointer] = memoryUnitfilter[pointerValue];
+}
+
+static void setPointerUnitgroup(int pointer, int pointerValue) {
+	memoryUnitgroup[pointer] = memoryUnitgroup[pointerValue];
+}
+
+static void setPointerUnitref(int pointer, int pointerValue) {
+	memoryUnitref[pointer] = memoryUnitref[pointerValue];
+}
+
+static void setPointerRevealer(int pointer, int pointerValue) {
+	memoryRevealer[pointer] = memoryRevealer[pointerValue];
+}
+
+static void setPointerWave(int pointer, int pointerValue) {
+	memoryWave[pointer] = memoryWave[pointerValue];
+}
+
+static void setPointerWaveinfo(int pointer, int pointerValue) {
+	memoryWaveinfo[pointer] = memoryWaveinfo[pointerValue];
+}
+
+static void setPointerWavetarget(int pointer, int pointerValue) {
+	memoryWavetarget[pointer] = memoryWavetarget[pointerValue];
+}
+
+static void setPointerDelegate(int pointer, int pointerValue) {
+	memoryDelegate[pointer] = memoryDelegate[pointerValue];
+}
+
+static void setPointerInt(int pointer, int pointerValue) {
+	memoryInt[pointer] = memoryInt[pointerValue];
+}
+
+static funcref<setPointerInt>[MEMORY_TYPE_COUNT] set;
+
+void setPointerValue(int pointer, int pointerValue) {
+	int memoryType = getMemoryType(pointer);
+
+	set[memoryType](getMemoryBlockAddress(pointer, memoryType), getMemoryBlockAddress(pointerValue, memoryType));
+} //setPointer
+
+void setPointerValueBlockEx(int blockAddress, int blockAddressValue, int memoryType) {
+	set[memoryType](blockAddress, blockAddressValue);
+} //setPointerValueBlockEx
+
+void setPointerValueEx(int pointer, int pointerValue, int memoryType) {
+	set[memoryType](getMemoryBlockAddress(pointer, memoryType), getMemoryBlockAddress(pointerValue, memoryType));
+} //setPointerValueEx
+
+void initializeSetPointer() {
+	set[MEMORY_TYPE_ABILCMD] = setPointerAbilcmd;
+	set[MEMORY_TYPE_AIFILTER] = setPointerAifilter;
+	set[MEMORY_TYPE_ACTOR] = setPointerActor;
+	set[MEMORY_TYPE_BOOL] = setPointerBool;
+	set[MEMORY_TYPE_BANK] = setPointerBank;
+	set[MEMORY_TYPE_BYTE] = setPointerByte;
+	set[MEMORY_TYPE_CAMERAINFO] = setPointerCamerainfo;
+	set[MEMORY_TYPE_COLOR] = setPointerColor;
+	set[MEMORY_TYPE_DOODAD] = setPointerDoodad;
+	set[MEMORY_TYPE_FIXED] = setPointerFixed;
+	set[MEMORY_TYPE_TEXT] = setPointerText;
+	set[MEMORY_TYPE_MARKER] = setPointerMarker;
+	set[MEMORY_TYPE_ORDER] = setPointerOrder;
+	set[MEMORY_TYPE_PLAYERGROUP] = setPointerPlayergroup;
+	set[MEMORY_TYPE_POINT] = setPointerPoint;
+	set[MEMORY_TYPE_REGION] = setPointerRegion;
+	set[MEMORY_TYPE_SOUND] = setPointerSound;
+	set[MEMORY_TYPE_SOUNDLINK] = setPointerSoundlink;
+	set[MEMORY_TYPE_STRING] = setPointerString;
+	set[MEMORY_TYPE_TIMER] = setPointerTimer;
+	set[MEMORY_TYPE_TRANSMISSIONSOURCE] = setPointerTransmissionsource;
+	set[MEMORY_TYPE_TRIGGER] = setPointerTrigger;
+	set[MEMORY_TYPE_UNIT] = setPointerUnit;
+	set[MEMORY_TYPE_UNITFILTER] = setPointerUnitfilter;
+	set[MEMORY_TYPE_UNITGROUP] = setPointerUnitgroup;
+	set[MEMORY_TYPE_UNITREF] = setPointerUnitref;
+	set[MEMORY_TYPE_REVEALER] = setPointerRevealer;
+	set[MEMORY_TYPE_WAVE] = setPointerWave;
+	set[MEMORY_TYPE_WAVEINFO] = setPointerWaveinfo;
+	set[MEMORY_TYPE_WAVETARGET] = setPointerWavetarget;
+	set[MEMORY_TYPE_DELEGATE] = setPointerDelegate;
+	set[MEMORY_TYPE_INT] = setPointerInt;
+} //initializesetPointer

@@ -1,0 +1,10 @@
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//  Functions
+//
+		void copyArray(int arrayToBeCopied, int arrayToCopyTo);
+		void copyArrayEx(int arrayToBeCopied, int arrayToCopyTo, int memoryType);
+//
+//			returns new resized array with all of original array's elements
+//
+//------------------------------------------------------------------------------------------------------------------------------------------------------

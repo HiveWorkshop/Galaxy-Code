@@ -1,0 +1,284 @@
+static void clearArrayAbilcmd(int array, int start, int end) {
+	while (start < end) {
+		memoryAbilcmd[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayAifilter(int array, int start, int end) {
+	while (start < end) {
+		memoryAifilter[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayActor(int array, int start, int end) {
+	while (start < end) {
+		memoryActor[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayBool(int array, int start, int end) {
+	while (start < end) {
+		memoryBool[array + start] = false;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayBank(int array, int start, int end) {
+	while (start < end) {
+		memoryBank[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayByte(int array, int start, int end) {
+	while (start < end) {
+		memoryByte[array + start] = 0;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayCamerainfo(int array, int start, int end) {
+	while (start < end) {
+		memoryCamerainfo[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayColor(int array, int start, int end) {
+	while (start < end) {
+		memoryColor[array + start] = COLOR_NULL[0];
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayDoodad(int array, int start, int end) {
+	while (start < end) {
+		memoryDoodad[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayFixed(int array, int start, int end) {
+	while (start < end) {
+		memoryFixed[array + start] = 0;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayText(int array, int start, int end) {
+	while (start < end) {
+		memoryText[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayMarker(int array, int start, int end) {
+	while (start < end) {
+		memoryMarker[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayOrder(int array, int start, int end) {
+	while (start < end) {
+		memoryOrder[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayPlayergroup(int array, int start, int end) {
+	while (start < end) {
+		memoryPlayergroup[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayPoint(int array, int start, int end) {
+	while (start < end) {
+		memoryPoint[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayRegion(int array, int start, int end) {
+	while (start < end) {
+		memoryRegion[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArraySound(int array, int start, int end) {
+	while (start < end) {
+		memorySound[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArraySoundlink(int array, int start, int end) {
+	while (start < end) {
+		memorySoundlink[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayString(int array, int start, int end) {
+	while (start < end) {
+		memoryString[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayTimer(int array, int start, int end) {
+	while (start < end) {
+		memoryTimer[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayTransmissionsource(int array, int start, int end) {
+	while (start < end) {
+		memoryTransmissionsource[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayTrigger(int array, int start, int end) {
+	while (start < end) {
+		memoryTrigger[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayUnit(int array, int start, int end) {
+	while (start < end) {
+		memoryUnit[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayUnitfilter(int array, int start, int end) {
+	while (start < end) {
+		memoryUnitfilter[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayUnitgroup(int array, int start, int end) {
+	while (start < end) {
+		memoryUnitgroup[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayUnitref(int array, int start, int end) {
+	while (start < end) {
+		memoryUnitref[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayRevealer(int array, int start, int end) {
+	while (start < end) {
+		memoryRevealer[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayWave(int array, int start, int end) {
+	while (start < end) {
+		memoryWave[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayWaveinfo(int array, int start, int end) {
+	while (start < end) {
+		memoryWaveinfo[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayWavetarget(int array, int start, int end) {
+	while (start < end) {
+		memoryWavetarget[array + start] = null;
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayDelegate(int array, int start, int end) {
+	while (start < end) {
+		memoryDelegate[array + start] = DELEGATE_NULL[0];
+		start = start + 1;
+	} //while
+}
+
+static void clearArrayInt(int array, int start, int end) {
+	while (start < end) {
+		memoryInt[array + start] = 0;
+		start = start + 1;
+	} //while
+}
+
+static funcref<clearArrayInt>[MEMORY_TYPE_COUNT] clear;
+
+void clearArray(int array) {
+	int memoryType = getMemoryType(array);
+
+	clear[memoryType](getMemoryBlockAddress(array, memoryType), 0, sizeof(array));
+} //clearArray
+
+void clearArrayRange(int array, int start, int end) {
+	int memoryType = getMemoryType(array);
+
+	clear[memoryType](getMemoryBlockAddress(array, memoryType), start, end + 1);
+} //clearArray
+
+void clearArrayEx(int array, int memoryType) {
+	clear[memoryType](getMemoryBlockAddress(array, memoryType), 0, sizeof(array));
+} //clearArray
+
+void clearArrayRangeEx(int array, int start, int end, int memoryType) {
+	clear[memoryType](getMemoryBlockAddress(array, memoryType), start, end + 1);
+} //clearArray
+
+void clearArrayRangeBlockEx(int array, int start, int end, int memoryType) {
+	clear[memoryType](array, start, end + 1);
+} //clearArray
+
+void initializeClearArray() {
+	clear[MEMORY_TYPE_ABILCMD] = clearArrayAbilcmd;
+	clear[MEMORY_TYPE_AIFILTER] = clearArrayAifilter;
+	clear[MEMORY_TYPE_ACTOR] = clearArrayActor;
+	clear[MEMORY_TYPE_BOOL] = clearArrayBool;
+	clear[MEMORY_TYPE_BANK] = clearArrayBank;
+	clear[MEMORY_TYPE_BYTE] = clearArrayByte;
+	clear[MEMORY_TYPE_CAMERAINFO] = clearArrayCamerainfo;
+	clear[MEMORY_TYPE_COLOR] = clearArrayColor;
+	clear[MEMORY_TYPE_DOODAD] = clearArrayDoodad;
+	clear[MEMORY_TYPE_FIXED] = clearArrayFixed;
+	clear[MEMORY_TYPE_TEXT] = clearArrayText;
+	clear[MEMORY_TYPE_MARKER] = clearArrayMarker;
+	clear[MEMORY_TYPE_ORDER] = clearArrayOrder;
+	clear[MEMORY_TYPE_PLAYERGROUP] = clearArrayPlayergroup;
+	clear[MEMORY_TYPE_POINT] = clearArrayPoint;
+	clear[MEMORY_TYPE_REGION] = clearArrayRegion;
+	clear[MEMORY_TYPE_SOUND] = clearArraySound;
+	clear[MEMORY_TYPE_SOUNDLINK] = clearArraySoundlink;
+	clear[MEMORY_TYPE_STRING] = clearArrayString;
+	clear[MEMORY_TYPE_TIMER] = clearArrayTimer;
+	clear[MEMORY_TYPE_TRANSMISSIONSOURCE] = clearArrayTransmissionsource;
+	clear[MEMORY_TYPE_TRIGGER] = clearArrayTrigger;
+	clear[MEMORY_TYPE_UNIT] = clearArrayUnit;
+	clear[MEMORY_TYPE_UNITFILTER] = clearArrayUnitfilter;
+	clear[MEMORY_TYPE_UNITGROUP] = clearArrayUnitgroup;
+	clear[MEMORY_TYPE_UNITREF] = clearArrayUnitref;
+	clear[MEMORY_TYPE_REVEALER] = clearArrayRevealer;
+	clear[MEMORY_TYPE_WAVE] = clearArrayWave;
+	clear[MEMORY_TYPE_WAVEINFO] = clearArrayWaveinfo;
+	clear[MEMORY_TYPE_WAVETARGET] = clearArrayWavetarget;
+	clear[MEMORY_TYPE_DELEGATE] = clearArrayDelegate;
+	clear[MEMORY_TYPE_INT] = clearArrayInt;
+} //initializeClearArray
