@@ -1,0 +1,21 @@
+void printList(int iterator) {
+    TriggerDebugOutput(1, StringToText("---------------list  print start----------------------"), false);
+    while (iteratorIsGood(iterator)) {
+        TriggerDebugOutput(1, IntToText(memoryInt[iteratorGetValue(iterator)]), false);
+    } //while
+} //printList
+
+void Iterator_Test() {
+    int list = listCreate(MEMORY_TYPE_INT);
+    int iteratorType = iteratorTypeCreate(listIteratorIsGood, listIteratorReset, listIteratorGetNext, listIteratorGetValue, listGetMemoryType);
+
+    memoryInt[listPushFrontBlock(list)] = 1;
+    memoryInt[listPushFrontBlock(list)] = 2;
+    memoryInt[listPushFrontBlock(list)] = 3;
+    memoryInt[listPushFrontBlock(list)] = 4;
+    memoryInt[listPushFrontBlock(list)] = 5;
+
+    printList(iteratorCreate(list, iteratorType));
+
+    listDestroy(list);
+} //Iterator_Test
