@@ -1,0 +1,40 @@
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//  Creation
+//
+        int vectorCreate(int memoryType);
+		void vectorDestroy(int vector);
+//
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//  Getters
+//
+
+//                            DATA
+//      ---------------------------------------------------------
+		int vectorGetPointer(int vector, int index);
+        int vectorGetPointerBlock(int vector, int index);
+//	
+		int vectorGetArray(int vector);
+		int vectorGetArrayBlock(int vector);
+//
+//                            PROPERTIES
+//      ---------------------------------------------------------
+        int vectorGetSize(int vector);
+		int vectorGetMemoryType(int vector);
+//	
+//
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//  Functions
+//
+        void vectorResize(int vector, int size);
+
+        void vectorPushFront(int vector);
+        void vectorPopFront(int vector);
+		
+		void vectorClear(int vector);
+		
+        void vectorCopy(int vectorToBeCopied, int vectorToCopyTo);
+//
+//------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,47 @@
+//-------------------------------------------------------------------------------------------
+//
+//	Functions
+//
+//-------------------------------------------------------------------------------------------
+//
+//		HEAP
+//
+			int heapGetSize(string heapName);
+//
+//				get number of elements in the heap
+//
+			int heapGetFirst(string heapName);
+//
+//				get first element in the heap (always biggest weight)
+//
+			void heapInsert(int pointer, int weight, string heapName, int min, int max);
+//
+//				insert an element into the heap given weight
+//
+//					min, max are the minimum and maximum pointer values
+//
+			void heapRemove(int pointer, string heapName);
+//
+//				remove any element from heap
+//
+//     	POINTER
+//
+			int heapGetWeight(int pointer);
+//
+//				get element's weight
+//
+			void heapChangeWeight(int pointer, int newWeight, string heapName);
+//
+//				change element's weight
+//
+//		DEBUG
+//
+			int heapValidate(string heapName);
+//
+//				validate heap
+//
+//					run this when feeling like the system is buggy
+//					this will return # of errors found in heap
+//
+//					if no errors are returned and strange behavior is occuring, the problem
+//					isn't in this resource
