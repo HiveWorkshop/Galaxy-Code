@@ -32,7 +32,8 @@
 //
 //  Functions
 //
-		void stackPush(int stack);
+		int stackPush(int stack);
+		int stackPushBlock(int stack);
 		void stackPop(int stack);
 		void stackClear(int stack);
 //

@@ -1,0 +1,38 @@
+void printQueue(int queue) {
+    queue = queueGetNext(queue);
+
+    TriggerDebugOutput(1, StringToText("---------------queue print start----------------------"), false);
+    while (queue != -1) {
+        TriggerDebugOutput(1, IntToText(memoryInt[queueGetPointerBlock(queue)]), false);
+        queue = queueGetNext(queue);
+    } //while
+} //printQueue
+
+void Queue_Test() {
+    int queue = queueCreate(MEMORY_TYPE_INT);
+
+    memoryInt[queuePushBlock(queue)] = 1;
+    memoryInt[queuePushBlock(queue)] = 2;
+    memoryInt[queuePushBlock(queue)] = 3;
+    memoryInt[queuePushBlock(queue)] = 4;
+    memoryInt[queuePushBlock(queue)] = 5;
+    memoryInt[queuePushBlock(queue)] = 6;
+    memoryInt[queuePushBlock(queue)] = 7;
+    memoryInt[queuePushBlock(queue)] = 8;
+    memoryInt[queuePushBlock(queue)] = 9;
+    memoryInt[queuePushBlock(queue)] = 10;
+
+    printQueue(queue);
+    
+    queuePop(queue);
+    queuePop(queue);
+    queuePop(queue);
+
+    printQueue(queue);
+
+    queueClear(queue);
+
+    printQueue(queue);
+
+    queueDestroy(queue);
+}

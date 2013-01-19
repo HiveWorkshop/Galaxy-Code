@@ -2,7 +2,7 @@
 //
 //  Queue Constructor
 //
-		int queueCreate();
+		int queueCreate(int memoryType);
 		void queueDestroy(int queue);
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -10,7 +10,9 @@
 //  Node Getters
 //
 		int queueGetNext(int node);
-		int queueGetData(int node);
+		int queueGetMemoryType(int queue);
+		int queueGetPointer(int queue, int node);
+		int queueGetPointerBlock(int node);
 //
 //                            Example
 //      ---------------------------------------------------------
@@ -18,7 +20,7 @@
 //      int data;
 //
 //      while (node != -1) {
-//          data = queueGetData(node);
+//          data = memoryInt[queueGetPointerBlock(node)];
 //          node = queueGetNext(node);
 //
 //          //code
@@ -28,8 +30,9 @@
 //
 //  Queue Functions
 //
-		void queuePush(int queue, int data);
-		int queuePop(int queue);
+		int queuePush(int queue);
+		int queuePushBlock(int queue);
+		void queuePop(int queue);
 		void queueClear(int queue);
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
