@@ -3,58 +3,80 @@
 //  - constants
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-static const int NEXT = 0;
-static const int DATA = 1;
-static const int LAST = 1;
-
+static const int NEXT = 0;				//node, queue
+static const int DATA = 1;				//node
+static const int LAST = 1;				//queue
+static const int MEMORY_TYPE = 2;		//queue
+//
+//	node
+//
+//		NEXT
+//		DATA
+//
+//	queue
+//
+//		NEXT
+//		LAST
+//		MEMORY_TYPE
+//
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //
 //  - getters
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-int queueGetNext(int node)      { return memoryInt[node];       	}
-int queueGetData(int node)      { return memoryInt[node + DATA];	}
+int queueGetNext(int node)      			{ return memoryInt[node];       													}
+int queueGetMemoryType(int queue) 			{ return memoryInt[queue + MEMORY_TYPE]; 											}
+int queueGetPointer(int queue, int node)	{ return getPointerAddress(memoryInt[node + DATA], memoryInt[queue + MEMORY_TYPE]); }
+int queueGetPointerBlock(int node)      	{ return memoryInt[node + DATA]; 													}
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //
 //  - functions
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-void queuePush(int queue, int data) {
+int queuePushBlock(int queue) {
     int node = getMemoryBlockAddress(allocate(2, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
 
-    memoryInt[node + DATA] = data;
+    memoryInt[node + DATA] = getMemoryBlockAddress(allocate(1, memoryInt[queue + MEMORY_TYPE]), memoryInt[queue + MEMORY_TYPE]);;
 
-    memoryInt[memoryInt[queue + LAST] + NEXT] = node;
+    memoryInt[memoryInt[queue + LAST]] = node;
     memoryInt[queue + LAST] = node;
-    memoryInt[node + NEXT] = -1;
+    memoryInt[node] = -1;
+	
+	return memoryInt[node + DATA];
+} //queuePushBlock
+
+int queuePush(int queue) {
+	return getPointerAddress(queuePushBlock(queue), memoryInt[queue + MEMORY_TYPE]);
 } //queuePush
 
-int queuePop(int queue) {
-    int node = memoryInt[queue + NEXT];
+void queuePop(int queue) {
+    int node = memoryInt[queue];
 
-    if (-1 == node) { return -1; }
+    if (-1 == node) { return; }
 
-    deallocateEx(getPointerAddress(node, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
-    memoryInt[queue + NEXT] = memoryInt[node + NEXT];
-
-    if (memoryInt[queue + NEXT] == -1) {
+	memoryInt[queue] = memoryInt[node];
+	if (memoryInt[queue] == -1) {
         memoryInt[queue + LAST] = queue;
     } //if
-
-    return memoryInt[node + DATA];
+	
+	deallocateEx(getPointerAddress(memoryInt[node + DATA], memoryInt[queue + MEMORY_TYPE]), memoryInt[queue + MEMORY_TYPE]);
+    deallocateEx(getPointerAddress(node, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
 } //queuePop
 
 void queueClear(int queue) {
-    int node = memoryInt[queue + NEXT];
+    int node = memoryInt[queue];
+	int memoryType = memoryInt[queue + MEMORY_TYPE];
+	
+	memoryInt[queue] = -1;
+    memoryInt[queue + LAST] = queue;
 
     while (node != -1) {
+		queue = memoryInt[node];
+		deallocateEx(getPointerAddress(memoryInt[node + DATA], memoryType), memoryType);
         deallocateEx(getPointerAddress(node, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
-        node = memoryInt[node + NEXT];
+        node = queue;
     }
-
-    memoryInt[queue + NEXT] = -1;
-    memoryInt[queue + LAST] = queue;
 } //queueClear
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -62,11 +84,12 @@ void queueClear(int queue) {
 //  - constructor
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-int queueCreate() {
-    int queue = getMemoryBlockAddress(allocate(2, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+int queueCreate(int memoryType) {
+    int queue = getMemoryBlockAddress(allocate(3, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
 
     memoryInt[queue] = -1;
     memoryInt[queue + LAST] = queue;
+	memoryInt[queue + MEMORY_TYPE] = memoryType;
 
     return queue;
 } //queueCreate

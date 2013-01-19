@@ -7,84 +7,89 @@ static const int NEXT = 0;
 static const int PREV = 1;
 static const int DATA = 2;
 static const int COUNT = 2;
+static const int MEMORY_TYPE = 3;
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //
 //  - getters
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-int listGetNext(int node)       { return memoryInt[node];           }
-int listGetPrev(int node)       { return memoryInt[node + PREV];    }
-int listGetData(int node)       { return memoryInt[node + DATA];    }
-int listGetCount(int list)      { return memoryInt[list + COUNT];   }
+int listGetNext(int node)       		{ return memoryInt[node];           												}
+int listGetPrev(int node)       		{ return memoryInt[node + PREV];    												}
+int listGetPointerBlock(int node)       { return memoryInt[node + DATA];    												}
+int listGetPointer(int list, int node)	{ return getPointerAddress(memoryInt[node + DATA], memoryInt[list + MEMORY_TYPE]); 	}
+int listGetCount(int list)      		{ return memoryInt[list + COUNT];   												}
+int listGetMemoryType(int list)			{ return memoryInt[list + MEMORY_TYPE]; 											}
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //
 //  - functions
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-bool listHas(int list, int data) {
-    int node = memoryInt[list + NEXT];
-
-    while (node != list && memoryInt[node] != data) { node = memoryInt[node + NEXT]; }
-
-    return memoryInt[node + DATA] == data;
-} //listHas
-
-int listCountData(int list, int data) {
-    int node = memoryInt[list + NEXT];
-    int count = 0;
-
-    while (node != list) {
-        if (memoryInt[node + DATA] == data) { count = count + 1; }
-
-        node = memoryInt[node + NEXT];
-    } //while
-
-    return count;
-} //listCountData
-
-void listAdd(int list, int data) {
+int listPushBackBlock(int list) {
     int node    = getMemoryBlockAddress(allocate(3, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
     int last    = memoryInt[list + PREV];
 
-    memoryInt[node + DATA] = data;
+    memoryInt[node + DATA] = getMemoryBlockAddress(allocate(1, memoryInt[list + MEMORY_TYPE]), memoryInt[list + MEMORY_TYPE]);
 
-    memoryInt[node + NEXT] = list;
+    memoryInt[node] = list;
     memoryInt[node + PREV] = last;
-    memoryInt[last + NEXT] = node;
+    memoryInt[last] = node;
     memoryInt[list + PREV] = node;
 
     memoryInt[list + COUNT] = memoryInt[list + COUNT] + 1;
-} //listAdd
+	
+	return memoryInt[node + DATA];
+} //listPushBackBlock
 
-void listRemove(int list, int data) {
-    int node = memoryInt[list + NEXT];
+int listPushFrontBlock(int list) {
+    int node    = getMemoryBlockAddress(allocate(3, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+    int first   = memoryInt[list];
 
-    while (node != list && memoryInt[node + DATA] != data) { node = memoryInt[node + NEXT]; }
+    memoryInt[node + DATA] = getMemoryBlockAddress(allocate(1, memoryInt[list + MEMORY_TYPE]), memoryInt[list + MEMORY_TYPE]);
 
-    if (memoryInt[node + DATA] != data) { return; }
+    memoryInt[node] = first;
+    memoryInt[node + PREV] = list;
+    memoryInt[list] = node;
+    memoryInt[first + PREV] = node;
 
-    memoryInt[memoryInt[node + NEXT] + PREV] = memoryInt[node + PREV];
-    memoryInt[memoryInt[node + PREV] + NEXT] = memoryInt[node + NEXT];
+    memoryInt[list + COUNT] = memoryInt[list + COUNT] + 1;
+	
+	return memoryInt[node + DATA];
+} //listPushFrontBlock
 
+int listPushFront(int list) { return getPointerAddress(listPushFrontBlock(list), memoryInt[list + MEMORY_TYPE]); 	}
+int listPushBack(int list) { return getPointerAddress(listPushBackBlock(list), memoryInt[list + MEMORY_TYPE]); 		}
+
+void listRemove(int list, int node) {
+    if (list == node) { return; }
+
+    memoryInt[memoryInt[node] + PREV] = memoryInt[node + PREV];
+    memoryInt[memoryInt[node + PREV]] = memoryInt[node];
     memoryInt[list + COUNT] = memoryInt[list + COUNT] - 1;
-
+	
+	deallocateEx(getPointerAddress(memoryInt[node + DATA], memoryInt[list + MEMORY_TYPE]), memoryInt[list + MEMORY_TYPE]);
     deallocateEx(getPointerAddress(node, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
 } //listRemove
 
+void listPopBack(int list) 	{ listRemove(list, memoryInt[list + PREV]); 	}
+void listPopFront(int list) { listRemove(list, memoryInt[list]); 			}
+
 void listClear(int list) {
-    int node = memoryInt[list + NEXT];
-
-    while (node != list) {
-        deallocate(getPointerAddress(node, MEMORY_TYPE_INT));
-        node = memoryInt[node + NEXT];
-    } //while
-
-    memoryInt[list + NEXT] = list;
+    int node = memoryInt[list];
+	int memoryType = memoryInt[list + MEMORY_TYPE];
+	
+	memoryInt[list] = list;
     memoryInt[list + PREV] = list;
 
     memoryInt[list + COUNT] = 0;
+
+    while (node != list) {
+		list = memoryInt[node];
+		deallocateEx(getPointerAddress(memoryInt[node + DATA], memoryType), memoryType);
+        deallocateEx(getPointerAddress(node, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+        node = list;
+    } //while
 } //listClear
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -92,13 +97,14 @@ void listClear(int list) {
 //  - constructor
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-int listCreate() {
-    int list = getMemoryBlockAddress(allocate(3, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+int listCreate(int memoryType) {
+    int list = getMemoryBlockAddress(allocate(4, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
 
-    memoryInt[list + NEXT] = list;
+    memoryInt[list] = list;
     memoryInt[list + PREV] = list;
 
     memoryInt[list + COUNT] = 0;
+	memoryInt[list + MEMORY_TYPE] = memoryType;
 
     return list;
 } //listCreate

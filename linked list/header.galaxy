@@ -2,7 +2,7 @@
 //
 //  List Constructor
 //
-		int listCreate();
+		int listCreate(int memoryType);
 		void listDestroy(int list);
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,12 @@
 //
 		int listGetNext(int node);
 		int listGetPrev(int node);
-		int listGetData(int node);
+		
+		int listGetPointer(int list, int node);
+		int listGetPointerBlock(int node);
+		
+		int listGetCount(int list);
+		int listGetMemoryType(int list);
 //
 //                            Example
 //      ---------------------------------------------------------
@@ -19,7 +24,7 @@
 //      int data;
 //
 //      while (node != list) {
-//          data = listGetData(node);
+//          data = memoryInt[listGetPointerBlock(node)];
 //          node = listGetNext(node);
 //
 //          //code
@@ -35,11 +40,14 @@
 //
 //  List Functions
 //
-		int listCountData(int list, int data);
-		bool listHas(int list, int data);
-//
-		void listAdd(int list, int data);
-		void listRemove(int list, int data);
+		int listPushFront(int list);
+		int listPushBack(int list);
+		int listPushBackBlock(int list);
+		int listPushFrontBlock(int list);
+		
+		void listRemove(int list, int node);
+		void listPopBack(int list);
+		void listPopFront(int list);
 		void listClear(int list);
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------

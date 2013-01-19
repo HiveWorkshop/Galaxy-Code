@@ -1,0 +1,38 @@
+void printStack(int stack) {
+    stack = stackGetNext(stack);
+
+    TriggerDebugOutput(1, StringToText("---------------stack print start----------------------"), false);
+    while (stack != -1) {
+        TriggerDebugOutput(1, IntToText(memoryInt[stackGetPointerBlock(stack)]), false);
+        stack = stackGetNext(stack);
+    } //while
+} //printStack
+
+void Stack_Test() {
+    int stack = stackCreate(MEMORY_TYPE_INT);
+
+    memoryInt[stackPushBlock(stack)] = 1;
+    memoryInt[stackPushBlock(stack)] = 2;
+    memoryInt[stackPushBlock(stack)] = 3;
+    memoryInt[stackPushBlock(stack)] = 4;
+    memoryInt[stackPushBlock(stack)] = 5;
+    memoryInt[stackPushBlock(stack)] = 6;
+    memoryInt[stackPushBlock(stack)] = 7;
+    memoryInt[stackPushBlock(stack)] = 8;
+    memoryInt[stackPushBlock(stack)] = 9;
+    memoryInt[stackPushBlock(stack)] = 10;
+
+    printStack(stack);
+    
+    stackPop(stack);
+    stackPop(stack);
+    stackPop(stack);
+
+    printStack(stack);
+
+    stackClear(stack);
+
+    printStack(stack);
+
+    stackDestroy(stack);
+}

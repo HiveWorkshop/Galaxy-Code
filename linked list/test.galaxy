@@ -1,0 +1,39 @@
+void printList(int list) {
+    int node = listGetNext(list);
+
+    TriggerDebugOutput(1, StringToText("---------------list  print start----------------------"), false);
+    while (node  != list) {
+        TriggerDebugOutput(1, IntToText(memoryInt[listGetPointerBlock(node)]), false);
+        node = listGetNext(node);
+    } //while
+} //printList
+
+void List_Test() {
+    int list = listCreate(MEMORY_TYPE_INT);
+
+    memoryInt[listPushBackBlock(list)] = 1;
+    memoryInt[listPushBackBlock(list)] = 2;
+    memoryInt[listPushBackBlock(list)] = 3;
+    memoryInt[listPushBackBlock(list)] = 4;
+    memoryInt[listPushBackBlock(list)] = 5;
+    memoryInt[listPushFrontBlock(list)] = 1;
+    memoryInt[listPushFrontBlock(list)] = 2;
+    memoryInt[listPushFrontBlock(list)] = 3;
+    memoryInt[listPushFrontBlock(list)] = 4;
+    memoryInt[listPushFrontBlock(list)] = 5;
+
+    printList(list);
+	
+    listPopFront(list);
+	listPopBack(list);
+    listPopFront(list);
+    listPopBack(list);
+
+    printList(list);
+	
+    listClear(list);
+
+    printList(list);
+
+    listDestroy(list);
+}
