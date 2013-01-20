@@ -1,0 +1,29 @@
+void printCollection(int iterator) {
+    TriggerDebugOutput(1, StringToText("---------------collection  print start----------------------"), false);
+    while (iteratorIsGood(iterator)) {
+        TriggerDebugOutput(1, IntToText(memoryInt[iteratorGetValue(iterator)]), false);
+    } //while
+} //printCollection
+
+void Iterator_Test() {
+    int list = listCreate(MEMORY_TYPE_INT);
+	int iterator = iteratorCreate(list, listIteratorGet());
+	
+    memoryInt[listPushFrontBlock(list)] = 1;
+    memoryInt[listPushFrontBlock(list)] = 2;
+    memoryInt[listPushFrontBlock(list)] = 3;
+    memoryInt[listPushFrontBlock(list)] = 4;
+    memoryInt[listPushFrontBlock(list)] = 5;
+	memoryInt[listPushBackBlock(list)] = 1;
+    memoryInt[listPushBackBlock(list)] = 2;
+    memoryInt[listPushBackBlock(list)] = 3;
+    memoryInt[listPushBackBlock(list)] = 4;
+    memoryInt[listPushBackBlock(list)] = 5;
+
+    printCollection(iterator);
+	
+	iteratorReset(iterator);
+	printCollection(iterator);
+
+    listDestroy(list);
+} //Iterator_Test

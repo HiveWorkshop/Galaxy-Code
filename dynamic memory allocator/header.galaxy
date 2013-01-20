@@ -137,38 +137,38 @@
 //
 //          8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144
 //
-    const int MEMORY_SIZE_ABILCMD                = 128;      //abilcmd
-    const int MEMORY_SIZE_AIFILTER               = 128;      //aifilter
-    const int MEMORY_SIZE_ACTOR                  = 2048;     //actor
-    const int MEMORY_SIZE_BOOL                   = 1024;     //bool
-    const int MEMORY_SIZE_BANK                   = 32;       //bank
-    const int MEMORY_SIZE_BYTE                   = 1024;     //byte
-    const int MEMORY_SIZE_CAMERAINFO             = 128;      //camerainfo
-    const int MEMORY_SIZE_COLOR                  = 256;      //color
-    const int MEMORY_SIZE_DOODAD                 = 1024;     //doodad
-    const int MEMORY_SIZE_FIXED                  = 8192;     //fixed
-    const int MEMORY_SIZE_INT                    = 16384;    //int
-    const int MEMORY_SIZE_MARKER                 = 512;      //marker
-    const int MEMORY_SIZE_ORDER                  = 512;      //order
-    const int MEMORY_SIZE_PLAYERGROUP            = 32;       //playergroup
-    const int MEMORY_SIZE_POINT                  = 512;      //point
-    const int MEMORY_SIZE_REGION                 = 256;      //region
-    const int MEMORY_SIZE_SOUND                  = 128;      //sound
-    const int MEMORY_SIZE_SOUNDLINK              = 128;      //soundlink
-    const int MEMORY_SIZE_STRING                 = 512;      //string
-    const int MEMORY_SIZE_TEXT                   = 512;      //text
-    const int MEMORY_SIZE_TIMER                  = 256;      //timer
-    const int MEMORY_SIZE_TRANSMISSIONSOURCE     = 64;       //transmissionsource
-    const int MEMORY_SIZE_TRIGGER                = 512;      //trigger
-    const int MEMORY_SIZE_UNIT                   = 2048;     //unit
-    const int MEMORY_SIZE_UNITFILTER             = 128;      //unitfilter
+    const int MEMORY_SIZE_ABILCMD                = 8;        //abilcmd
+    const int MEMORY_SIZE_AIFILTER               = 8;        //aifilter
+    const int MEMORY_SIZE_ACTOR                  = 8192;     //actor
+	const int MEMORY_SIZE_BOOL				     = 4092;	 //bool
+    const int MEMORY_SIZE_BANK                   = 8;        //bank
+    const int MEMORY_SIZE_BYTE                   = 8192;     //byte
+    const int MEMORY_SIZE_CAMERAINFO             = 16;       //camerainfo
+    const int MEMORY_SIZE_COLOR                  = 2048;     //color
+    const int MEMORY_SIZE_DOODAD                 = 8;        //doodad
+    const int MEMORY_SIZE_FIXED                  = 16384;    //fixed
+    const int MEMORY_SIZE_INT                    = 131072;   //int
+    const int MEMORY_SIZE_MARKER                 = 8;        //marker
+    const int MEMORY_SIZE_ORDER                  = 8;        //order
+    const int MEMORY_SIZE_PLAYERGROUP            = 16;       //playergroup
+    const int MEMORY_SIZE_POINT                  = 2048;     //point
+    const int MEMORY_SIZE_REGION                 = 1024;     //region
+    const int MEMORY_SIZE_SOUND                  = 8;        //sound
+    const int MEMORY_SIZE_SOUNDLINK              = 8;        //soundlink
+    const int MEMORY_SIZE_STRING                 = 1024;     //string
+    const int MEMORY_SIZE_TEXT                   = 1024;     //text
+    const int MEMORY_SIZE_TIMER                  = 8;        //timer
+    const int MEMORY_SIZE_TRANSMISSIONSOURCE     = 8;        //transmissionsource
+    const int MEMORY_SIZE_TRIGGER                = 8;        //trigger
+    const int MEMORY_SIZE_UNIT                   = 8192;     //unit
+    const int MEMORY_SIZE_UNITFILTER             = 8;        //unitfilter
     const int MEMORY_SIZE_UNITGROUP              = 512;      //unitgroup
-    const int MEMORY_SIZE_UNITREF                = 1024;     //unitref
-    const int MEMORY_SIZE_REVEALER               = 128;      //revealer
-    const int MEMORY_SIZE_WAVE                   = 64;       //wave
-    const int MEMORY_SIZE_WAVEINFO               = 64;       //waveinfo
-    const int MEMORY_SIZE_WAVETARGET             = 64;       //wavetarget
-    const int MEMORY_SIZE_DELEGATE               = 1024;     //funcref<delegate>
+    const int MEMORY_SIZE_UNITREF                = 8192;     //unitref
+    const int MEMORY_SIZE_REVEALER               = 8;        //revealer
+    const int MEMORY_SIZE_WAVE                   = 8;        //wave
+    const int MEMORY_SIZE_WAVEINFO               = 8;        //waveinfo
+    const int MEMORY_SIZE_WAVETARGET             = 8;        //wavetarget
+    const int MEMORY_SIZE_DELEGATE               = 16384;    //funcref<delegate>
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //

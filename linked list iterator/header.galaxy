@@ -1,0 +1,6 @@
+int listIteratorGet();
+//
+//	Retrieve list type iterator
+//
+//	Used to create iterators to iterate over linked lists
+//
