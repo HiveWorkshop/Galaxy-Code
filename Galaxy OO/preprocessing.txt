@@ -1,0 +1,15 @@
+//value is of type void but is interpreted as type T
+void test<T>(T value) {
+}//test
+
+//useful for
+list<int> myList = new list<int>();
+
+//among other things
+
+
+
+//preprocessing scripting
+//
+//	use a scripting language for preprocessing with #
+//	Lua might be a good one

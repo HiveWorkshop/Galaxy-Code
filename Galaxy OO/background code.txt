@@ -1,0 +1,116 @@
+All allocation for pointers will work off of a Dynamic Memory Allocator script that runs off of a Binary Heap
+
+	https://github.com/HiveWorkshop/Galaxy-Code/tree/master/dynamic%20memory%20allocator
+	
+The functions will all be privatized and replaced with grammar
+
+	int^ array = new int[10];		//int array = allocate(10, MEMORY_TYPE_INT);
+	int* array2 = new int[10];		//int array2 = getMemoryBlockAddress(allocate(10, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+	int& arrayRef = new int[10];	//int arrayRef = getMemoryBlockAddress(allocate(10, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+									//reads direct values rather than pointers
+									
+	int i = arrayRef				//int i = memoryInt[arrayRef];
+	int i2 = array2[3]				//int i2 = memoryInt[array2 + 3];
+	int i3 = *(array2 + 3)			//int i3 = memoryInt[array2 + 3];
+	int i4 = &arrayRef[3]			//int i4 = memoryInt[arrayRef + 3];
+	int i5 = array[3]				//int i5 = memoryInt[getMemoryBlockAddress(array3, MEMORY_TYPE_INT)];
+	unit u = array[3] //typecasting, this would throw an error in-game though
+					  //unit u = memoryUnit[getMemoryBlockAddress(array3, MEMORY_TYPE_UNIT)];
+					  
+	^
+		pointer address
+		
+			supports
+			
+				sizeof
+				getMemoryType
+				deallocate
+				
+	*
+	
+		memory block address
+		
+	&
+	
+		memory block address, direct value
+		
+	int& t = new int;	//int t = getMemoryBlocKAddress(allocate(1, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+						//just like a regular variable
+						
+	^i //typecast to ^
+	*i //typecast to &
+	&i //typecast to *
+	
+	void
+		
+		unknown type
+		
+		type can be retrieved if it's void^, otherwise the data is completely unknown
+		
+		same features supported as above
+	
+	void^ i2
+	void* i3
+	void& i4
+	
+Memory Allocator also supports delegates. However, delegates should be removed and all functions mapped into arrays of delegates.
+Delegates are only stored with specific array addresses, so no information can be known about them if they are of type void.
+
+	//the delegate is identified by return type and argument types
+	void test(bool b, int f (fixed, byte, byte));
+	
+	//if the above is hit first, a prototype would be made
+	void proto1(bool b, int f (fixed, byte, byte));
+	
+	//test would then go to
+	void test(bool, funcref<proto1>);
+	
+	//furthermore, as all functions are mapped, functions will be able to be stored as integers
+	//however, they will not be able to be called unless the type is known, like normal
+
+	int super(fixed, byte, byte) = someFunction;	//store variable, let language know to read specific array
+	(int (fixed, byte, byte))someFunction			//typecast, essentially read the array
+	
+	//can also do a lambda function
+	int super(fixed, byte, byte) = { int i; };
+	
+	//which would change into something like
+	int lambda1(fixed, byte, bytE) { int i; }
+	
+	int super = proto1[0]; 						//or whatever id is assigned to lambda1
+	
+	//then to call it
+	int test = super(1.1, 5, 6);				//int test = proto1[super](1.1, 5, 6);
+	
+All of these features can then be applied to classes
+
+	A class would essentially be an integer array of size fields + methods allocated by dynamic memory allocator
+	
+	From here, each slot in the array would be stored with the specific fields
+	
+		int* class = new int[15]				//class has 15 fields/methods
+		(int*)class[0] = new int[15]			//an integer array
+		(unit&)class[1] = new unit				//a unit
+		(unit&)class[2] = new unit				//another unit
+		(int (int, int))class[3] = proto3[3] 	//a method
+		
+	Static methods are not stored in the class
+	Non static methods are stored in the class
+	Destructors are always not static and are always stored in the class
+	They use the special ~ keyword
+	
+		~() { }
+	
+	Creators are always static and use the class name
+	
+		Name() { }
+		
+	All non static methods will automatically take an objectType* this
+	
+		int test() { }			//int test(objectType* this) { }
+		
+	When called
+	
+		object.test();			//protoX[memoryInt[object + CONSTANT]](object);
+	
+All of this, with the use of Dynamic Memory Allocator, is completely possible. The only thing that is needed is an editor to handle the syntax and convert to Galaxy.
