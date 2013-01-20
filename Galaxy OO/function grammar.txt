@@ -1,0 +1,48 @@
+//class operators can be applied to functions
+
+//takes int value
+//returns int
+int int+= { }
+
+int i = 1;
+
+i+=5 	//i = intOp(5)
+
+//unlike class operators, function operators can take up to 2 values
+//1 argument for class operator is taken up with the class being passed in
+//function arguments are static, so the instance isn't passed in
+//only 1 . can be applied
+//
+//		type.field
+//
+
+//takes unit
+//returns fixed
+fixed unit.hp() { }		//gets unit's health
+
+//takes unit
+//takes fixed
+//returns nothing
+void unit.hp=(fixed value) { }	//sets unit's health
+unit.hp=(fixed value) { }
+unit unit+= { }					//takes unit, returns unit??
+
+//see background code for other function grammar
+//
+//	lambdas
+//	prototypes
+//
+//		etc
+
+//functions can of course be put into namespaces
+//
+//namespace Hi {
+//}
+//
+//public, protected, and private work
+//namespaces can be in namespaces
+//namespaces use .
+
+//overloading
+void test()		 { }
+void test(int i) { }
