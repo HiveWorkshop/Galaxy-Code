@@ -1,0 +1,123 @@
+class ClassName {
+}
+
+	A class is a combatination of fields and methods
+	
+		Methods
+		
+			
+
+class ClassName2 : ClassName {
+}
+
+:
+	extends a class
+	
+	: public
+	
+		accessible by all
+		
+	: protected
+	
+		accessible by immediate children
+		
+	: private
+	
+		accessible by only this class
+		
+super
+
+	access parent class
+	
+class ClassName {
+	//constructor, automatically calls parent constructor
+	ClassName() {
+		//ClassName* this automatically defined
+		
+		
+		
+		//automatically returns ClassName* this
+	}
+	
+	~() {
+		//ClassName* this is automatically pass in
+		//automatically call parent destructors at end
+	}
+}
+
+new ClassName()
+delete ClassName
+
+//can't be extended
+sealed class ClassName {
+}
+
+//operators
+//setters, getters
+class Test {
+	//+ operator
+	+ {
+		//Test return expected
+		//Test value passed in
+	}
+	
+		//alternatively
+			int + { }				//returns int now
+			int +(int value) { }	//takes an int now and returns an int
+		//only takes a maximum of 1 argument
+
+	+= {
+		//no return value expected
+		//Test value passed in
+	}
+	
+		//alternatively
+			//Test +=(Test value) { }	//now it expects a return value of Test
+			//+= (Test value) { }
+			//+= (unit value) { }		//now it takes a unit instead, returns nothing
+		//only takes a maximum of 1 argument
+	
+	int [int i] {
+		//int i passed in
+		//int return value expected
+	}
+	
+	int [int i] = {
+		//int i passed in
+		//int value passed in
+		//no return value expected
+	}
+	
+	int [int i, int i2] {
+	}
+	
+	int [int i][int i2] {
+	}
+	
+	//[] variant takes infinite arguments and can return any type
+	
+	//setter
+	int i = {
+		//int value passed in
+	}
+	
+	//getter
+	int i {
+		//exepcted return int
+	}
+	
+	//operators can also be applied to setters and getters
+	int i += {
+		//takes int value
+		//returns nothing
+	}
+}
+
+//keywords
+class Test {
+	private int i;
+	protected int i2;
+	public int i3;
+	
+	private int* i4 = new int[5000];	//automatically initialized
+}
