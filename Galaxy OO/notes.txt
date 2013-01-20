@@ -1,0 +1,7 @@
+#1: main method
+#2: auto include all used script files
+#3: dependencies (auto order libraries)
+#4: internal (static keyword, each namespace is its own file)
+#5: all code not in namespace is merged into the main script file (global)
+#6: initializers
+	{ } //auto runs
