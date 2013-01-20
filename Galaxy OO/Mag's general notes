@@ -39,3 +39,8 @@ Array init:
 	If you have an active internet connection, this will download the latest version of "file.h" 
 	from the GitHub repository and cache it. If you don't have an active internet connection, it 
 	will use the latest cached version if it exists.
+
+-----------------------------------
+#include not needed as NetBeans supports git already and Galaxy has include
+However, relative include paths are needed and multiple include paths should be able to be configured like in VS
+with priority.
