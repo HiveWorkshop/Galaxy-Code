@@ -131,12 +131,6 @@
 //
 //  memory sizes
 //
-//  -   min memory size: 8
-//
-//  -   must be in powers of 2
-//
-//          8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144
-//
     const int MEMORY_SIZE_ABILCMD                = 8;        //abilcmd
     const int MEMORY_SIZE_AIFILTER               = 8;        //aifilter
     const int MEMORY_SIZE_ACTOR                  = 8192;     //actor
@@ -162,8 +156,8 @@
     const int MEMORY_SIZE_TRIGGER                = 8;        //trigger
     const int MEMORY_SIZE_UNIT                   = 8192;     //unit
     const int MEMORY_SIZE_UNITFILTER             = 8;        //unitfilter
-    const int MEMORY_SIZE_UNITGROUP              = 512;      //unitgroup
-    const int MEMORY_SIZE_UNITREF                = 8192;     //unitref
+    const int MEMORY_SIZE_UNITGROUP              = 2048;     //unitgroup
+    const int MEMORY_SIZE_UNITREF                = 8;     	 //unitref
     const int MEMORY_SIZE_REVEALER               = 8;        //revealer
     const int MEMORY_SIZE_WAVE                   = 8;        //wave
     const int MEMORY_SIZE_WAVEINFO               = 8;        //waveinfo

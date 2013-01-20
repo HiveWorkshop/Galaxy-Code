@@ -1,0 +1,9 @@
+int unitGetPointerBlock(unit u);
+int unitGetPointer(unit u);
+
+void waitUntilUnitsIndexed();
+//
+//	May only be called within a trigger
+//
+//	Will wait until created units are indexed
+//
