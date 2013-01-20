@@ -1,0 +1,20 @@
+void runTest() {
+	int object = testA_allocate_testB(0);
+    int object2 = testA_allocate_testA(0);
+
+    testA_1(object);
+    testA_2(object, 5, 10);
+
+    testA_1(object2);
+    testA_2(object2, 5, 10);
+
+    testA_deallocate(object);
+    testA_deallocate(object2);
+}
+
+void test() {
+	initializeTestA();
+	initializeTestB();
+
+    runTest();
+}

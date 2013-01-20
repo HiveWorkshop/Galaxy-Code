@@ -1,0 +1,90 @@
+//Class A, Parent
+
+const int testA_field_bleh = 0;
+const int testA_field_omg = 1;
+const int testA_field_hoo = 2;
+
+const int testA_delegate_testA_1 = 3;
+const int testA_delegate_testA_2 = 4;
+
+const int testA_delegate_deallocate = 5;
+
+void testA_1_testA(int object) {
+	TriggerDebugOutput(1, StringToText("testA_1: ") + IntToText(object), false);
+} //testA
+
+int testA_2_testA(int object, int a, int b) {
+	TriggerDebugOutput(1, StringToText("testA_2: ") + IntToText(object) + StringToText(", ") + IntToText(a) + StringToText(", ") + IntToText(b), false);
+	return 0;
+} //testA_2
+
+int testA_allocate_testA(int extend) {
+	int object = getMemoryBlockAddress(allocate(6 + extend, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+	
+	memoryInt[object + testA_field_bleh] = 0;
+	memoryInt[object + testA_field_omg] = 0;
+	memoryInt[object + testA_field_hoo] = 0;
+	
+	memoryInt[object + testA_delegate_testA_1] = 0;		//parent
+	memoryInt[object + testA_delegate_testA_2] = 0;		//parent
+	memoryInt[object + testA_delegate_deallocate] = 0;	//parent
+	
+	return object;
+} //testA_allocate
+
+void testA_deallocate_testA(int object) {
+	deallocateEx(getPointerAddress(object, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+} //testA_deallocate
+
+funcref<testA_1_testA>[2] testA_1_delegate;					//increases for every extending class
+funcref<testA_2_testA>[2] testA_2_delegate;					//increases for every extending class
+funcref<testA_deallocate_testA>[1] testA_deallocate_delegate;	//increases for every extending class
+
+void initializeTestA() {
+	testA_1_delegate[0] = testA_1_testA;
+	testA_2_delegate[0] = testA_2_testA;
+	testA_deallocate_delegate[0] = testA_deallocate_testA;
+} //initializeTestA
+
+const int testB_field_a = 6;
+const int testB_field_b = 7;
+const int testB_field_c = 8;
+
+void testA_1_testB(int object) {
+	TriggerDebugOutput(1, StringToText("testA_1 B: ") + IntToText(object), false);
+} //testA
+
+int testA_2_testB(int object, int a, int b) {
+	TriggerDebugOutput(1, StringToText("testA_2 B: ") + IntToText(object) + StringToText(", ") + IntToText(a - 7) + StringToText(", ") + IntToText(b + 3), false);
+	return 0;
+} //testA_2
+
+int testA_allocate_testB(int extend) {
+	int object = testA_allocate_testA(3 + extend);
+	
+	memoryInt[object + testB_field_a] = 0;
+	memoryInt[object + testB_field_b] = 0;
+	memoryInt[object + testB_field_c] = 0;
+	
+	memoryInt[object + testA_delegate_testA_1] = 1;
+	memoryInt[object + testA_delegate_testA_2] = 1;
+	
+	return object;
+} //testA_allocate_testB()
+
+void initializeTestB() {
+	testA_1_delegate[1] = testA_1_testB;
+	testA_2_delegate[1] = testA_2_testB;
+} //initializeTestA
+
+void testA_1(int object) {
+	testA_1_delegate[memoryInt[object + testA_delegate_testA_1]](object);
+} //testA
+
+int testA_2(int object, int a, int b) {
+	return testA_2_delegate[memoryInt[object + testA_delegate_testA_2]](object, a, b);
+} //testA_2
+
+void testA_deallocate(int object) {
+	testA_deallocate_delegate[memoryInt[object + testA_delegate_deallocate]](object);
+} //testA_deallocate
