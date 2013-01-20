@@ -1,53 +1,125 @@
+//------------------------------------------------------------------------------------------------------------------------------------------------------
 //
-//	Use these prototypes for general collections when coding generic algorithms
+//  Iterator Fields
 //
-//	Collections should implement these prototypes for generic iteration
+	const int ITERATOR_COLLECTION 	= 0;
+	const int ITERATOR_POSITION 	= 1;
+	const int ITERATOR_MEMORY_TYPE 	= 2;
+	const int ITERATOR_DATA			= 3;
 //
+//		Example
 //
-//		//useful function
+//			memoryInt[iterator + ITERATOR_POSITION]
 //
-//			//void setPointerValueBlockEx(int blockAddress, int blockAddressValue, int memoryType);
+//------------------------------------------------------------------------------------------------------------------------------------------------------
 //
-//		int findMax(int collection, funcref<getSentinelDelegate> getSentinel, funcref<getNextDelegate> getNext, funcref<getFirstDelegate> getFirst, funcref<getDataTypeDelegate> getDataType, funcref<getDataDelegate> getData, funcref<compareDelegate> compare, funcref<getPointerDelegate> getPointer) {
-//			int sentinel = getSentinel(collection);
-//			int position = getFirst(collection);
-//			int dataType = getDataType(collection);		//assume all values in collection are of same type
-//														//this may not be the case for very complicated collections
+//  Iterator Type Creation
 //
-//			int data;
-//			int max = -1;
+	int iteratorTypeCreate(funcref<delegate> isGood, funcref<delegate> reset, funcref<delegate> getNext, funcref<delegate> getValue, funcref<delegate> getType);
 //
-//			while (!atSentinel(sentinel, position)) {
+//		Create an iterator for your collection
 //
-//				data = getData(position);
+//			isGood
 //
-//				if (max == -1) {
-//					max = data;
-//				} //if
-//				else if (compare(data, max) > 0) {
-//					max = data;
-//				} //else if
+//				called at the start of each loop
+//				iterator is passed in
 //
-//				position = getNext(position);
-//			} //while
+//					return 0 for end loop
+//					return 1 for continue loop
 //
-//			return getPointer(max);
-//		} //findMax
-
-int compareDelegate(int value1, int value2);	//for comparisons
-int getSentinelDelegate(int collection);			//for iteration
-int getNextDelegate(int position);					//for iteration
-int getFirstDelegate(int collection);				//for iteration
-int getDataDelegate(int position);					//for general
-int getDataTypeDelegate(int collection, int data)	//for general
-int getPointerDelegate(int data, int dataType)		//convert data back to general pointer
-
-//general collection functions
-int compareInt(int value1, int value2) 					{ return value1 - value2; 												}		//int
-int getNextArray(int position)							{ return position + 1;													}		//array
-int getFirstArray(int collection)						{ return getMemoryBlockAddress(collection, getMemoryType(collection));	}		//convert pointer to memory block address
-int getSentinelArray(int collection)					{ return collection + sizeof(collection); 								}		//array
-int getDataArray(int position)							{ return position;														}		//if it's memory block, this is all that's needed
-int getDataTypeArray(int collection, int position)		{ return getMemoryType(collection);										}		//generally useful
-
-bool atSentinel(int sentinel, int position)				{ return sentinel != position; 											}
+//					while (isGood(iterator) { }
+//
+//				continue to next position in iterator
+//
+//					int isGood(int iterator) {
+//						//array
+//						memoryInt[iterator + ITERATOR_POSITION] = memoryInt[iterator + ITERATOR_POSITION] + 1;
+//
+//						if (memoryInt[iterator + ITERATOR_POSITION] < sizeof(memoryInt[iterator + COLLECTION])) {
+//							return 1;
+//						} //if
+//						return 0;
+//					} //isGood
+//
+//			reset
+//
+//				reset the iterator to start position
+//				called on iterator creation
+//
+//				if a complex data structure, may use ITERATOR_DATA slot to allocate an array
+//				to help with iteration. It will be 0 at creation, so first check to see if it's 0
+//				before allocation. Must **allocate** MEMORY_TYPE_INT.
+//
+//				int reset(int iterator) {
+//					//array
+//					memoryInt[iterator + ITERATOR_POSITION] = memoryInt[iterator + COLLECTION] - 1;
+//
+//					if (memoryInt[iterator + ITERATOR_DATA] == 0) {
+//						//arrays passed in pointer form, so convert to block address form
+//						memoryInt[iterator + ITERATOR_COLLECTIon] = getMemoryBlockAddress(memoryInt[iterator + ITERATOR_COLLECTION], memoryInt[iterator + ITERATOR_MEMORY_TYPE]);
+//					} //if
+//				} //reset
+//
+//			getNext
+//
+//				return current position in collection
+//
+//				//return immediate container of data
+//				//for array, this is array index
+//				//for list, this would be the node
+//				int getNext(int iterator) { return memoryInt[iterator + ITERATION_POSITION]; }
+//
+//			getValue
+//
+//				return pointer to value in current position in collection
+//
+//				//for array, this is still the array index
+//				//for list, this would be data inside of node
+//				int getValue(int iterator) { return memoryInt[iterator + ITERATOR_POSITION]; }
+//
+//			getType
+//
+//				return memory type
+//				this is called before reset on create one time
+//
+//				int getType(int collection) { return getMemoryType(collection); }
+//
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//  Iterator Functions
+//
+	int iteratorCreate(int collection, int iteratorType);
+//
+//		creates new iterator of type iteratorType
+//
+//		retrieves memory type from iteratorType
+//		resets iterator calling iteratorType
+//
+//		must pass in pointer address for array
+//			pointer address is used to retrieve the array type
+//		must pass in block address for any other collection
+//			collections other than arrays stored in block address as
+//			the base data is always MEMORY_TYPE_INT and they always
+//			have a getMemoryType function
+//
+	void iteratorDestroy(int iterator);
+//
+//		destroys the iterator
+//		deallocates iteratorType data if any was created
+//
+	int iteratorGetNext(int iterator);
+//
+//		calls iteratorType.getNext
+//
+	int iteratorGetValue(int iterator);
+//
+//		calls iteratorType.getValue
+//
+	bool iteratorIsGood(int iterator);
+//
+//		calls iteratorType.isGood
+//
+	void iteratorReset(int iterator);
+//
+//		calls iteratorType.reset
+//
