@@ -1,0 +1,41 @@
+Operators: (In addition to the SC2 Galaxy operators)
+
+  ++
+	--
+	+=
+	-=
+	/=
+	*=
+	%=
+	new
+	new[]
+	delete
+	delete[]
+
+		We can allow people to override the new/delete keywords
+		for enhanced awesomeness and flexibility.
+
+Control flow:
+
+	for( ; ; ) { }
+	do { } while ( )
+
+Array init:
+
+	int[5] integers = {1, 56, 34, 32, 98};
+
+	->
+
+	int[5] integers;
+
+	int[0] = 1;
+	int[1] = 56;
+	int[2] = 34;
+	int[3] = 32;
+	int[4] = 98;
+
+#include "file.h"
+
+	If you have an active internet connection, this will download the latest version of "file.h" 
+	from the GitHub repository and cache it. If you don't have an active internet connection, it 
+	will use the latest cached version if it exists.
