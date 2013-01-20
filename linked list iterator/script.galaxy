@@ -1,0 +1,25 @@
+static int listIterator;
+
+static int listIteratorIsGood(int iterator) {
+	memoryInt[iterator + ITERATOR_POSITION] = listGetNext(memoryInt[iterator + ITERATOR_POSITION]);
+	if (memoryInt[iterator + ITERATOR_COLLECTION] == memoryInt[iterator + ITERATOR_POSITION]) {
+		return 0;
+	} //if
+	return 1;
+} //listIteratorIsGood
+static int listIteratorReset(int iterator) {
+	memoryInt[iterator + ITERATOR_POSITION] = memoryInt[iterator + ITERATOR_COLLECTION];
+	return 0;
+} //listIteratorReset
+static int listIteratorGetValue(int iterator) {
+	return listGetPointerBlock(memoryInt[iterator + ITERATOR_POSITION]);
+} //listIteratorGetData
+static int listIteratorGetNext(int iterator) {
+	return memoryInt[iterator + ITERATOR_POSITION];
+} //listIteratorGetData
+
+int listIteratorGet() { return listIterator; }
+
+void listIteratorInitialize() {
+	listIterator = iteratorTypeCreate(listIteratorIsGood, listIteratorReset, listIteratorGetNext, listIteratorGetValue, listGetMemoryType);
+} //listIteratorInitialize

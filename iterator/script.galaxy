@@ -1,87 +1,12 @@
-//merge sort for linked list
-//all sorting algorithms for arrays
-
-//algorithms are specific to implementation!
-
-//funcref<compare>
-//int collection
-
-//sort(collection, funcref<compare>, memoryType)
-//setPointerValue
-
-//for iteration
-//hasNext (proceed to next if possible) -> 0, 1
-//getNext -> data
-//getMemoryType (stored) -> memory type
-
-//that's it! O_O
-
-
-//hasNext			-	collection specific, delegate (1 value), 
-//getData			-	collection specific, delegate (1 value), for retrieval of data to set
-//getMemoryType		-	stored in iterator,	 function (1 value), for setPointerValue
-//compare			-	type specific, 		 delegate (2 values)
-//getArgs			-	iterator args, for compare
-
-//setPointerValue	-	the resource
-
-//only thing it needs is compare
-
-
 //External Delegates
-const int ITERATOR_IS_GOOD = 0;
-const int ITERATOR_RESET = 1;
-const int ITERATOR_GET_NEXT = 2;
-const int ITERATOR_GET_VALUE = 3;
-const int ITERATOR_GET_TYPE = 4;
+static const int ITERATOR_IS_GOOD = 0;
+static const int ITERATOR_RESET = 1;
+static const int ITERATOR_GET_NEXT = 2;
+static const int ITERATOR_GET_VALUE = 3;
+static const int ITERATOR_GET_TYPE = 4;
 
 //Internal Integers
-const int ITERATOR_COLLECTION = 0;
-const int ITERATOR_POSITION = 1;
-static const int ITERATOR_DELEGATES = 2;
-const int ITERATOR_MEMORY_TYPE = 3;
-
-//int getNextDelegate(int collection, int position);
-//int getSentinelDelegate(int collection);
-//int getFirstDelegate(int collection);
-//int getDataDelegate(int collection, int position, int dataType);
-//int getDataTypeDelegate(int collection, int data);
-//int getPointerBlockDelegate(int data, int dataType);
-//int compareDelegate(int value1, int value2);
-
-//getNext
-//hasNext
-//compare
-//getPointerBlock
-//create
-//destroy
-//reset
-
-//getNext = listGetNext
-//getFirst = listGetNext
-//getSentinel = ????
-//getData = listGetPointerBlock
-//getDataType = listGetMemoryType
-//compare = specific compare method
-
-int listIteratorIsGood(int iterator) {
-	int next = listGetNext(memoryInt[iterator + ITERATOR_POSITION]);
-	if (memoryInt[iterator + ITERATOR_COLLECTION] == next) {
-		return 0;
-	} //if
-	memoryInt[iterator + ITERATOR_POSITION] = next;
-	return 1;
-}
-int listIteratorReset(int iterator)   {
-	memoryInt[iterator + ITERATOR_POSITION] = memoryInt[iterator + ITERATOR_COLLECTION];
-	return 0;
-} //listIteratorReset
-int listIteratorGetValue(int iterator) {
-	return listGetPointerBlock(memoryInt[iterator + ITERATOR_POSITION]);
-} //listIteratorGetData
-int listIteratorGetNext(int iterator) {
-	return memoryInt[iterator + ITERATOR_POSITION];
-} //listIteratorGetData
+static const int ITERATOR_DELEGATES = 4;
 
 int iteratorTypeCreate(funcref<delegate> isGood, funcref<delegate> reset, funcref<delegate> getNext, funcref<delegate> getValue, funcref<delegate> getType) {
 	int iteratorType = getMemoryBlockAddress(allocate(5, MEMORY_TYPE_DELEGATE), MEMORY_TYPE_DELEGATE);
@@ -96,10 +21,11 @@ int iteratorTypeCreate(funcref<delegate> isGood, funcref<delegate> reset, funcre
 } //iteratorTypeCreate
 
 int iteratorCreate(int collection, int iteratorType) {
-	int iterator = getMemoryBlockAddress(allocate(4, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+	int iterator = getMemoryBlockAddress(allocate(5, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+	
 	memoryInt[iterator] = collection;
-	memoryInt[iterator + ITERATOR_POSITION] = listGetNext(collection);
 	memoryInt[iterator + ITERATOR_DELEGATES] = iteratorType;
+	memoryInt[iterator + ITERATOR_DATA] = 0;
 	memoryInt[iterator + ITERATOR_MEMORY_TYPE] = memoryDelegate[iteratorType + ITERATOR_GET_TYPE](collection);
 	
 	memoryDelegate[iteratorType + ITERATOR_RESET](iterator);
@@ -108,6 +34,9 @@ int iteratorCreate(int collection, int iteratorType) {
 } //iteratorCreate
 
 void iteratorDestroy(int iterator) {
+	if (memoryInt[iterator + ITERATOR_DATA] != 0) {
+		deallocateEx(getPointerAddress(memoryInt[iterator + ITERATOR_DATA], MEMORY_TYPE_INT), MEMORY_TYPE_INT);
+	} //if
 	deallocateEx(getPointerAddress(iterator, MEMORY_TYPE_INT), MEMORY_TYPE_INT);
 } //iteratorDestory
 
