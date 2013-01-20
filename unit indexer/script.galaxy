@@ -1,0 +1,46 @@
+static int instanceCount;
+static trigger onCreate;
+
+bool UNIT_INDEXER_onCreate(bool a, bool b) {
+	int instance = DataTableGetInt(true, "UnitIndexer_UnitStack[0");
+
+	if (0 == instance) {
+		instance = instanceCount + 1;
+		instanceCount = instance;
+	} //if
+	else {
+		DataTableSetInt(true, "UnitIndexer_UnitStack[0", DataTableGetInt(true, "UnitIndexer_UnitStack[" + IntToString(instance)));
+	} //else
+	
+	memoryUnit[instance] = EventUnitCreatedUnit();
+	UnitSetPropertyInt(EventUnitCreatedUnit(), c_unitPropBountyCustom, instance);
+	
+	return true;
+} //onCreate
+
+bool UNIT_INDEXER_onRemove(bool a, bool b) {
+	int instance = UnitGetPropertyInt(EventUnit(), c_unitPropBountyCustom, true);
+	
+	if (memoryUnit[instance] == EventUnit()) {
+		DataTableSetInt(true, "UnitIndexer_UnitStack[" + IntToString(instance), DataTableGetInt(true, "UnitIndexer_UnitStack[0"));
+		DataTableSetInt(true, "UnitStack[0", instance);
+	} //if
+	
+	return true;
+} //onRemove
+
+int unitGetPointerBlock(unit u) { return UnitGetPropertyInt(u, c_unitPropBountyCustom, true); 										}
+int unitGetPointer(unit u) 		{ return getPointerAddress(UnitGetPropertyInt(u, c_unitPropBountyCustom, true), MEMORY_TYPE_UNIT); 	}
+
+void waitUntilUnitsIndexed() {
+	TriggerWaitForTrigger(onCreate, true);
+} //waitUntilIndexed
+
+void initializeUnitIndexer() {
+	instanceCount = getMemoryBlockAddress(allocate(MEMORY_SIZE_UNIT, MEMORY_TYPE_UNIT), MEMORY_TYPE_UNIT) - 1;
+	
+	onCreate = TriggerCreate("UNIT_INDEXER_onCreate");
+	
+	TriggerAddEventUnitCreated(onCreate, null, null, null);
+	TriggerAddEventUnitRemoved(TriggerCreate("UNIT_INDEXER_onRemove"), null);
+} //initializeUnitIndexer
