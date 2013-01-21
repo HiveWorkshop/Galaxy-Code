@@ -6,10 +6,3 @@ void test<T>(T value) {
 list<int> myList = new list<int>();
 
 //among other things
-
-
-
-//preprocessing scripting
-//
-//	use a scripting language for preprocessing with #
-//	Lua might be a good one
