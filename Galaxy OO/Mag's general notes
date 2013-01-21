@@ -44,3 +44,19 @@ Array init:
 #include not needed as NetBeans supports git already and Galaxy has include
 However, relative include paths are needed and multiple include paths should be able to be configured like in VS
 with priority.
+---------------------------------------
+++, -- would be very difficult to do
+
+consider this
+if (true || i++ == 0) { }
+that would not run i++
+
+if (false || i++ == 0) { }
+that would
+
+only way I can see ++ and -- being done is through functions
+
+also, ++ and -- don't have to be supported directly, they can be done via functions in Galaxy
+same goes with the other operators you listed
+
+if you look at the function object thing, all of this can be done through Galaxy
