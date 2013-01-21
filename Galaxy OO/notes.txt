@@ -48,3 +48,45 @@ c = #{print(tostring(c));};
 { } implies scope, whether preprocessor or not
 
 run preprocessor statements and code at the same time
+
+as { } implies scope
+
+name { } names that scope (like namespace)
+
+(){ } would be an anonymous function
+
+code that is not in a function is automatically executed for the scope that it's inside of (all gathered into
+one function of common scope)
+
+therefor { } can be placed anywhere and anything can go inside of it
+furthermore, can do statements like (keep in mind that these aren't in functions)
+
+int x = 5;
+while (x < 10) { runSomething(); }
+
+the above would translate into
+int x = 5;
+initFunc1() { while (++x < 10) { runSomething(); }
+
+inline keyword
+automatically inline functions that follow specific rules (inline keyword or not)
+if the inline is keyword, then follow different inlining techniques
+
+if a variable in the function is set and it is not a reference, create a copy of that variable and set the copy, this
+way the original variable isn't changed
+
+inline void do(int v) { v = v + 1; }
+
+test() {
+	int v = 5;
+	do(v);
+}
+
+translates to
+
+test() {
+	int v = 5;
+	int loc1;
+	loc1 = v;
+	loc1 = loc1 + 1;
+}
