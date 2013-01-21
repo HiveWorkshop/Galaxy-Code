@@ -126,3 +126,14 @@ if (bool1 && bool2 || bool3) {
 		//code
 	}
 } //if
+
+while (++x < 5) { }
+
+to
+
+while (true) {
+	x = x + 1;
+	if (x < 5) {
+	}
+	else { break; }
+}
