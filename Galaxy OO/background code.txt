@@ -117,7 +117,7 @@ All of this, with the use of Dynamic Memory Allocator, is completely possible. T
 
 
 -------------------------------------
-each object wrapped with
+each object wrapped with a pointer type (allocated from end of integers to prevent fragmentation)
 int[3]
 int[0] == memory type
 int[1] == size
@@ -125,9 +125,9 @@ int[2] == pointer to object
 
 from here, each type has both a stack and a heap as well as a counter
 if (size > 1)
-	check heap
+	check heap (allocates from front)
 else
-	check stack
+	check stack (allocates from end)
 
 if (still null)
 	increase counter
@@ -136,7 +136,7 @@ if (still null)
 
 			if heap has integers
 
-				defrag heap (defrags from stack and heap)
+				defrag heap
 
 				check heap
 
