@@ -6,7 +6,7 @@
 #6: initializers
 	{ } //auto runs
 
-
+---------------------------
 .lib files that contain code in encrypted form
 .lib files can be used to protect code and can be used for nice inclusions (auto correct ordering, auto include required libs, etc)
 .lib files may depend on other .lib files
@@ -26,3 +26,7 @@ support multiple languages
 
 switch between grammars for each language (to a degree). Antlr supports turning portions of grammar on/off, which is
 totally awesome
+
+-----------------------------
+regex
+printf
