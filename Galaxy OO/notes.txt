@@ -147,3 +147,17 @@ while (x < 5) {
 	x = x + 1;
 }
 x = x + 1;
+
+--------------------------------------
+interpolation
+
+int x = 3;
+"$x"; -> IntToString(x);
+"\$x"; -> "$x"
+
+literals
+'$x' -> "$x"
+
+regex?
+a .. z?
+[a-z]?
