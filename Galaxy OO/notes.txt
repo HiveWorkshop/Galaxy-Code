@@ -90,3 +90,39 @@ test() {
 	loc1 = v;
 	loc1 = loc1 + 1;
 }
+
+if (bool || ++x == 1) {
+} //if
+
+translates to
+
+bool loc1;
+loc1 = bool;
+if (loc1) {
+	x = x + 1;
+	if (x == 1) {
+	}
+}
+
+if (bool1 && bool2 && x++ == 2 || bool3 && ++x == 1) {
+	//code
+}
+
+to
+
+
+bool loc1 = bool1;
+bool loc2 = bool2;
+bool loc3 = bool3;
+if (bool1 && bool2 || bool3) {
+	if (bool3) {
+		x = x + 1;
+	}
+	if (bool1 && bool2 && x == 2 || bool3 && x == 1) {
+		if (bool1 && bool2) {
+			x = x + 1;
+		}
+
+		//code
+	}
+} //if
