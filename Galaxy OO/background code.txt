@@ -114,3 +114,36 @@ All of these features can then be applied to classes
 		object.test();			//protoX[memoryInt[object + CONSTANT]](object);
 	
 All of this, with the use of Dynamic Memory Allocator, is completely possible. The only thing that is needed is an editor to handle the syntax and convert to Galaxy.
+
+
+-------------------------------------
+each object wrapped with
+int[3]
+int[0] == memory type
+int[1] == size
+int[2] == pointer to object
+
+from here, each type has both a stack and a heap as well as a counter
+if (size > 1)
+	check heap
+else
+	check stack
+
+if (still null)
+	increase counter
+
+		if overflow
+
+			if heap has integers
+
+				defrag heap (defrags from stack and heap)
+
+				check heap
+
+				if still null
+
+					overflow
+
+upon deallocation, size of 1 always deallocates to stack and size > 1 always deallocates to heap
+heap will not be defragmented as sizes will typically remain the same throughout the game
+the pointer with memory type, size, etc is passed into the heap, which'll help drastically improve speed
