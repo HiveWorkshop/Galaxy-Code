@@ -57,6 +57,4 @@ that would
 only way I can see ++ and -- being done is through functions
 
 also, ++ and -- don't have to be supported directly, they can be done via functions in Galaxy
-same goes with the other operators you listed
-
-if you look at the function object thing, all of this can be done through Galaxy
+same goes with the other operators listed
