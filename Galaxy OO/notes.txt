@@ -30,3 +30,16 @@ totally awesome
 -----------------------------
 regex
 printf
+
+----------------------------
+#
+#{ }
+
+language == preprocessor variable
+int i = 5;
+int b = 6;
+#print("int c = i + b");
+#int c = 6;
+int c = 5;
+#print(tostring(c)); //6, # will look at the preprocessor stuff
+c = #{print(tostring(c));};
