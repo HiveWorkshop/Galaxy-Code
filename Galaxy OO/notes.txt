@@ -7,7 +7,7 @@
 	{ } //auto runs
 
 
-.lib files that contain code in serialized form
+.lib files that contain code in encrypted form
 .lib files can be used to protect code (as it can't be reversed) and can be included
 .lib files may depend on other .lib files
 .lib files may include a url where .lib file is stored
