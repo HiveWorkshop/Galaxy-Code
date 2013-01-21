@@ -43,3 +43,8 @@ int b = 6;
 int c = 5;
 #print(tostring(c)); //6, # will look at the preprocessor stuff
 c = #{print(tostring(c));};
+
+---------------------------------
+{ } implies scope, whether preprocessor or not
+
+run preprocessor statements and code at the same time
