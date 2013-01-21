@@ -5,3 +5,24 @@
 #5: all code not in namespace is merged into the main script file (global)
 #6: initializers
 	{ } //auto runs
+
+
+.lib files that contain code in serialized form
+.lib files can be used to protect code (as it can't be reversed) and can be included
+.lib files may depend on other .lib files
+.lib files may include a url where .lib file is stored
+.lib files include a version
+
+whenever a project is opened
+	all .lib files are checked for updates and then updated
+
+support multiple languages
+
+#language = Galaxy {
+}
+
+#language = GalaxyOO {
+}
+
+switch between grammars for each language (to a degree). Antlr supports turning portions of grammar on/off, which is
+totally awesome
