@@ -137,3 +137,12 @@ while (true) {
 	}
 	else { break; }
 }
+
+while (x++ < 5) {
+}
+
+to
+
+while (x < 5) {
+	x = x + 1;
+}
