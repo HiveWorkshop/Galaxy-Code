@@ -4,7 +4,8 @@
 #4: internal (static keyword, each namespace is its own file)
 #5: all code not in namespace is merged into the main script file (global)
 #6: initializers
-	{ } //auto runs
+
+code not in a function auto runs, use { } for scoping
 
 ---------------------------
 .lib files that contain code in encrypted form
