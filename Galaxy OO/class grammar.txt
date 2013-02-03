@@ -24,6 +24,10 @@ class ClassName2 : ClassName {
 	: private
 	
 		accessible by only this class
+
+	: internal
+
+		for current *scope*, { } or label { }
 		
 super
 
