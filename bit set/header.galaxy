@@ -1,7 +1,100 @@
-byte getBit(byte bits, byte index);
-byte setBit(byte bits, byte index);
-byte clearBit(byte bits, byte index);
+//
+//	Key
+//
+//		B
+//
+//			function made for byte
+//
+//				shrB	(notice the B)
+//
+//		I
+//
+//			function made for int
+//
+//				shrI	(notice the I)
+//
+//		_M
+//
+//			works with bitmap (position of bit does not change)
+//
+//				get bit at position 4 in 1101101011001
+//
+//							Position    9876543210
+//										1101011001
+//
+//										11010(1)1001
+//
+//							Output		0000010000
+//
+//							Result		10000
+//
+//				set data at position does not shift input left
+//
+//		_V
+//
+//			works with value (position of bit shifts all the way to right)
+//
+//				get bit at position 4 in 1101101011001
+//
+//							Position    9876543210
+//										1101011001
+//
+//										11010(1)1001
+//
+//							Output		000001
+//
+//							Result		1
+//
+//				set data at position shifts input left
+//
+//	Assembly Operations
+//
+// 		1. shr
+// 		2. ror
+// 		3. rol
+//
+//		Details	- http://en.wikibooks.org/wiki/X86_Assembly/Shift_and_Rotate
+//
+//	Primitive Details
+//
+//		Byte
+//			-	A byte has 8 bits, positions 0 through 7
+//		Int
+//			-	An int has 32 bits, positions 0 through 31
+//		Byte in Int
+//			-	An int has 4 bytes, positions 0 through 3
+//
+//	API
+//
+//		Single Bit
+//
+			byte bitGetB_M(byte x, byte p);
+			byte bitGetB_V(byte x, byte p);
+			byte bitSetB_V(byte x, byte p);
+			byte bitClearB(byte x, byte p);
 
-int getBitInt(int bits, byte index);
-int setBitInt(int bits, byte index);
-int clearBitInt(int bits, byte index);
+			int bitGetI_M(int x, byte p);
+			int bitGetI_V(int x, byte p);
+			int bitSetI_V(int x, byte p);
+			int bitClearI(int x, byte p);
+//
+//		Multi Bit
+//
+			int bitsGetI_M(int x, byte p, byte c);
+			int bitsGetI_V(int x, byte p, byte c);
+//
+//		Byte
+//
+			int byteGetI_M(int x, byte p);
+			int byteGetI_V(int x, byte p);
+			int byteClearI(int x, byte p);
+			int byteSetI_M(int x, byte b, byte p);
+			int byteSetI_V(int x, byte b, byte p);
+//
+//		ASM (assembly)
+//
+			byte shrB(byte x, byte p);
+			int shrI(int x, int p);
+
+			int rorI(int x, byte n);
+			int rolI(int x, byte n);
