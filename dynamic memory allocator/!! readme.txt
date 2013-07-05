@@ -1,21 +1,15 @@
 Details
 
-	Heap memory allocation in order to declare scalars and arrays on the fly
+	Memory allocation in order to declare scalars and arrays on the fly
 
 Status
 
-	Finished
+	Not Finished - PreAlpha, use at your own risk
 
 Requirements
 
-	Name
-	
-		Binary Heap Max DT
-	
-	Link
-	
-		https://github.com/nestharus/Galaxy-Code/tree/master/binary%20heap%20max%20dt
+	None
 
 Initializer
 
-	initializeMemoryAllocation
+	init_mem_alloc
