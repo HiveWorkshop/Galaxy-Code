@@ -1,0 +1,62 @@
+//	single bit
+	
+	//
+	//	byte
+	//
+	byte bitGetB_M(byte x, byte p)		{ return x &  H_01 << p;			}
+	byte bitGetB_V(byte x, byte p)		{ return shrB(x & H_01 << p, p);	}
+	
+	byte bitSetB_V(byte x, byte p)		{ return x |  H_01 << p;			}
+	
+	byte bitClearB(byte x, byte p)		{ return x & ~(H_01 << p);			}
+
+	//
+	//	int
+	//
+	int bitGetI_M(int x, byte p)		{ return x &  1 << p;			}
+	int bitGetI_V(int x, byte p)		{ return shrI(x & 1 << p, p);	}
+	
+	int bitSetI_V(int x, byte p)		{ return x |  1 << p;			}
+	
+	int bitClearI(int x, byte p)		{ return x & ~(1 << p);			}
+
+//	multi bit
+
+	int bitsGetI_M(int x, byte p, byte c) {
+		return x & ~(~0 << c) << p;
+	} //bitsGet_M
+	
+	int bitsGetI_V(int x, byte p, byte c) {
+		return shrI(x & ~(~0 << c) << p, p);
+	} //bitsGet_V
+
+//	single byte
+
+	int byteGetI_M(int x, byte p) 			{ return x & 0xff << (p << 3);					}
+	int byteGetI_V(int x, byte p)			{ return shrI(x & 0xff << (p << 3), p << 3); 	}
+	
+	int byteClearI(int x, byte p)			{ return x & ~(0xff << (p << 3));				}
+	
+	int byteSetI_M(int x, byte b, byte p)	{ return byteClearI(x, p << 3) | b;				}
+	int byteSetI_V(int x, byte b, byte p)	{ return byteClearI(x, p << 3) | b << (p << 3);	}
+
+//	shr
+
+	byte shrB(byte x, byte p) {
+		return (x & 0x7f) >> p | -((x & 1 << 7) >> p);
+	} //shrB
+	int shrI(int x, int p) {
+		return (x & 0x7fffffff) >> p | -((x & 1 << 31) >> p);
+	} //shrI
+	
+//	ror
+
+	int rorI(int x, byte n) {
+		return shrI(x, n) | (x & ~(-1 << n)) << (32 - n);
+	} //rorI
+
+//	rol
+
+	int rolI(int x, byte n) {
+		return x << n | shrI(x, 32 - n);
+	} //rolI
