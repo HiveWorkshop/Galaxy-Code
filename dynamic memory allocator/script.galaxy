@@ -1,339 +1,441 @@
-static bool systemEnabled = true;
-
-int delegate(int data) { return 0; }
-
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //
 //  - memory address initialization
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-    static int 		[MEMORY_TYPE_COUNT] memoryTypeStartAddress;
-    static int 		[MEMORY_TYPE_COUNT] memoryTypeSize;
-    static string 	[MEMORY_TYPE_COUNT] memoryTypeName;
+    static int 		[mem_type_count] mem_size;
+    static string 	[mem_type_count] mem_name;
 
-    static void initializeMemoryTypeAddresses() {
-        memoryTypeStartAddress[MEMORY_TYPE_ABILCMD]             = 1;                                                                                            //abilcmd
-        memoryTypeStartAddress[MEMORY_TYPE_AIFILTER]            = memoryTypeStartAddress[MEMORY_TYPE_ABILCMD]               + MEMORY_SIZE_ABILCMD;              //aifilter
-        memoryTypeStartAddress[MEMORY_TYPE_ACTOR]               = memoryTypeStartAddress[MEMORY_TYPE_AIFILTER]              + MEMORY_SIZE_AIFILTER;             //actor
-        memoryTypeStartAddress[MEMORY_TYPE_BOOL]                = memoryTypeStartAddress[MEMORY_TYPE_ACTOR]                 + MEMORY_SIZE_ACTOR;                //bool
-        memoryTypeStartAddress[MEMORY_TYPE_BANK]                = memoryTypeStartAddress[MEMORY_TYPE_BOOL]                  + MEMORY_SIZE_BOOL;                 //bank
-        memoryTypeStartAddress[MEMORY_TYPE_BYTE]                = memoryTypeStartAddress[MEMORY_TYPE_BANK]                  + MEMORY_SIZE_BANK;                 //byte
-        memoryTypeStartAddress[MEMORY_TYPE_CAMERAINFO]          = memoryTypeStartAddress[MEMORY_TYPE_BYTE]                  + MEMORY_SIZE_BYTE;                 //camerainfo
-        memoryTypeStartAddress[MEMORY_TYPE_COLOR]               = memoryTypeStartAddress[MEMORY_TYPE_CAMERAINFO]            + MEMORY_SIZE_CAMERAINFO;           //color
-        memoryTypeStartAddress[MEMORY_TYPE_DOODAD]              = memoryTypeStartAddress[MEMORY_TYPE_COLOR]                 + MEMORY_SIZE_COLOR;                //doodad
-        memoryTypeStartAddress[MEMORY_TYPE_FIXED]               = memoryTypeStartAddress[MEMORY_TYPE_DOODAD]                + MEMORY_SIZE_DOODAD;               //fixed
-        memoryTypeStartAddress[MEMORY_TYPE_INT]                 = memoryTypeStartAddress[MEMORY_TYPE_FIXED]                 + MEMORY_SIZE_FIXED;                //int
-        memoryTypeStartAddress[MEMORY_TYPE_MARKER]              = memoryTypeStartAddress[MEMORY_TYPE_INT]                   + MEMORY_SIZE_INT;                  //marker
-        memoryTypeStartAddress[MEMORY_TYPE_ORDER]               = memoryTypeStartAddress[MEMORY_TYPE_MARKER]                + MEMORY_SIZE_MARKER;               //order
-        memoryTypeStartAddress[MEMORY_TYPE_PLAYERGROUP]         = memoryTypeStartAddress[MEMORY_TYPE_ORDER]                 + MEMORY_SIZE_ORDER;                //playergroup
-        memoryTypeStartAddress[MEMORY_TYPE_POINT]               = memoryTypeStartAddress[MEMORY_TYPE_PLAYERGROUP]           + MEMORY_SIZE_PLAYERGROUP;          //point
-        memoryTypeStartAddress[MEMORY_TYPE_REGION]              = memoryTypeStartAddress[MEMORY_TYPE_POINT]                 + MEMORY_SIZE_POINT;                //region
-        memoryTypeStartAddress[MEMORY_TYPE_SOUND]               = memoryTypeStartAddress[MEMORY_TYPE_REGION]                + MEMORY_SIZE_REGION;               //sound
-        memoryTypeStartAddress[MEMORY_TYPE_SOUNDLINK]           = memoryTypeStartAddress[MEMORY_TYPE_SOUND]                 + MEMORY_SIZE_SOUND;                //soundlink
-        memoryTypeStartAddress[MEMORY_TYPE_STRING]              = memoryTypeStartAddress[MEMORY_TYPE_SOUNDLINK]             + MEMORY_SIZE_SOUNDLINK;            //string
-        memoryTypeStartAddress[MEMORY_TYPE_TEXT]                = memoryTypeStartAddress[MEMORY_TYPE_STRING]                + MEMORY_SIZE_STRING;               //text
-        memoryTypeStartAddress[MEMORY_TYPE_TIMER]               = memoryTypeStartAddress[MEMORY_TYPE_TEXT]                  + MEMORY_SIZE_TEXT;                 //timer
-        memoryTypeStartAddress[MEMORY_TYPE_TRANSMISSIONSOURCE]  = memoryTypeStartAddress[MEMORY_TYPE_TIMER]                 + MEMORY_SIZE_TIMER;                //transmissionsource
-        memoryTypeStartAddress[MEMORY_TYPE_TRIGGER]             = memoryTypeStartAddress[MEMORY_TYPE_TRANSMISSIONSOURCE]    + MEMORY_SIZE_TRANSMISSIONSOURCE;   //trigger
-        memoryTypeStartAddress[MEMORY_TYPE_UNIT]                = memoryTypeStartAddress[MEMORY_TYPE_TRIGGER]               + MEMORY_SIZE_TRIGGER;              //unit
-        memoryTypeStartAddress[MEMORY_TYPE_UNITFILTER]          = memoryTypeStartAddress[MEMORY_TYPE_UNIT]                  + MEMORY_SIZE_UNIT;                 //unitfilter
-        memoryTypeStartAddress[MEMORY_TYPE_UNITGROUP]           = memoryTypeStartAddress[MEMORY_TYPE_UNITFILTER]            + MEMORY_SIZE_UNITFILTER;           //unitgroup
-        memoryTypeStartAddress[MEMORY_TYPE_UNITREF]             = memoryTypeStartAddress[MEMORY_TYPE_UNITGROUP]             + MEMORY_SIZE_UNITGROUP;            //unitref
-        memoryTypeStartAddress[MEMORY_TYPE_REVEALER]            = memoryTypeStartAddress[MEMORY_TYPE_UNITREF]               + MEMORY_SIZE_UNITREF;              //revealer
-        memoryTypeStartAddress[MEMORY_TYPE_WAVE]                = memoryTypeStartAddress[MEMORY_TYPE_REVEALER]              + MEMORY_SIZE_REVEALER;             //wave
-        memoryTypeStartAddress[MEMORY_TYPE_WAVEINFO]            = memoryTypeStartAddress[MEMORY_TYPE_WAVE]                  + MEMORY_SIZE_WAVE;                 //waveinfo
-        memoryTypeStartAddress[MEMORY_TYPE_WAVETARGET]          = memoryTypeStartAddress[MEMORY_TYPE_WAVEINFO]              + MEMORY_SIZE_WAVEINFO;             //wavetarget
-        memoryTypeStartAddress[MEMORY_TYPE_DELEGATE]            = memoryTypeStartAddress[MEMORY_TYPE_WAVETARGET]            + MEMORY_SIZE_WAVETARGET;           //funcref<func>
+    static void init_mem() {
+		mem_size[mem_type_abilcmd]          	= mem_size_abilcmd;
+		mem_size[mem_type_actor]          		= mem_size_actor;
+		mem_size[mem_type_actorscope]       	= mem_size_actorscope;
+		mem_size[mem_type_aifilter]         	= mem_size_aifilter;
+		mem_size[mem_type_bank]             	= mem_size_bank;
+		mem_size[mem_type_bool]             	= mem_size_bool;
+		mem_size[mem_type_byte]             	= mem_size_byte;
+		mem_size[mem_type_camerainfo]       	= mem_size_camerainfo;
+		mem_size[mem_type_color]            	= mem_size_color;
+		mem_size[mem_type_doodad]           	= mem_size_doodad;
+		mem_size[mem_type_fixed]            	= mem_size_fixed;
+		mem_size[mem_type_int]              	= mem_size_int;
+		mem_size[mem_type_marker]           	= mem_size_marker;
+		mem_size[mem_type_order]            	= mem_size_order;
+		mem_size[mem_type_playergroup]      	= mem_size_playergroup;
+		mem_size[mem_type_point]            	= mem_size_point;
+		mem_size[mem_type_region]           	= mem_size_region;
+		mem_size[mem_type_revealer]         	= mem_size_revealer;
+		mem_size[mem_type_sound]            	= mem_size_sound;
+		mem_size[mem_type_soundlink]        	= mem_size_soundlink;
+		mem_size[mem_type_string]           	= mem_size_string;
+		mem_size[mem_type_text]             	= mem_size_text;
+		mem_size[mem_type_timer]            	= mem_size_timer;
+		mem_size[mem_type_transmissionsource]	= mem_size_transmissionsource;
+		mem_size[mem_type_trigger]         		= mem_size_trigger;
+		mem_size[mem_type_unit]             	= mem_size_unit;
+		mem_size[mem_type_unitfilter]       	= mem_size_unitfilter;
+		mem_size[mem_type_unitgroup]        	= mem_size_unitgroup;
+		mem_size[mem_type_unitref]          	= mem_size_unitref;
+		mem_size[mem_type_wave]             	= mem_size_wave;
+		mem_size[mem_type_waveinfo]         	= mem_size_waveinfo;
+		mem_size[mem_type_wavetarget]       	= mem_size_wavetarget;
 
-        memoryTypeSize[MEMORY_TYPE_ABILCMD]             = MEMORY_SIZE_ABILCMD;              //abilcmd
-        memoryTypeSize[MEMORY_TYPE_AIFILTER]            = MEMORY_SIZE_AIFILTER;             //aifilter
-        memoryTypeSize[MEMORY_TYPE_ACTOR]               = MEMORY_SIZE_ACTOR;                //actor
-        memoryTypeSize[MEMORY_TYPE_BOOL]                = MEMORY_SIZE_BOOL;                 //bool
-        memoryTypeSize[MEMORY_TYPE_BANK]                = MEMORY_SIZE_BANK;                 //bank
-        memoryTypeSize[MEMORY_TYPE_BYTE]                = MEMORY_SIZE_BYTE;                 //byte
-        memoryTypeSize[MEMORY_TYPE_CAMERAINFO]          = MEMORY_SIZE_CAMERAINFO;           //camerainfo
-        memoryTypeSize[MEMORY_TYPE_COLOR]               = MEMORY_SIZE_COLOR;                //color
-        memoryTypeSize[MEMORY_TYPE_DOODAD]              = MEMORY_SIZE_DOODAD;               //doodad
-        memoryTypeSize[MEMORY_TYPE_FIXED]               = MEMORY_SIZE_FIXED;                //fixed
-        memoryTypeSize[MEMORY_TYPE_INT]                 = MEMORY_SIZE_INT;                  //int
-        memoryTypeSize[MEMORY_TYPE_MARKER]              = MEMORY_SIZE_MARKER;               //marker
-        memoryTypeSize[MEMORY_TYPE_ORDER]               = MEMORY_SIZE_ORDER;                //order
-        memoryTypeSize[MEMORY_TYPE_PLAYERGROUP]         = MEMORY_SIZE_PLAYERGROUP;          //playergroup
-        memoryTypeSize[MEMORY_TYPE_POINT]               = MEMORY_SIZE_POINT;                //point
-        memoryTypeSize[MEMORY_TYPE_REGION]              = MEMORY_SIZE_REGION;               //region
-        memoryTypeSize[MEMORY_TYPE_SOUND]               = MEMORY_SIZE_SOUND;                //sound
-        memoryTypeSize[MEMORY_TYPE_SOUNDLINK]           = MEMORY_SIZE_SOUNDLINK;            //soundlink
-        memoryTypeSize[MEMORY_TYPE_STRING]              = MEMORY_SIZE_STRING;               //string
-        memoryTypeSize[MEMORY_TYPE_TEXT]                = MEMORY_SIZE_TEXT;                 //text
-        memoryTypeSize[MEMORY_TYPE_TIMER]               = MEMORY_SIZE_TIMER;                //timer
-        memoryTypeSize[MEMORY_TYPE_TRANSMISSIONSOURCE]  = MEMORY_SIZE_TRANSMISSIONSOURCE;   //transmissionsource
-        memoryTypeSize[MEMORY_TYPE_TRIGGER]             = MEMORY_SIZE_TRIGGER;              //trigger
-        memoryTypeSize[MEMORY_TYPE_UNIT]                = MEMORY_SIZE_UNIT;                 //unit
-        memoryTypeSize[MEMORY_TYPE_UNITFILTER]          = MEMORY_SIZE_UNITFILTER;           //unitfilter
-        memoryTypeSize[MEMORY_TYPE_UNITGROUP]           = MEMORY_SIZE_UNITGROUP;            //unitgroup
-        memoryTypeSize[MEMORY_TYPE_UNITREF]             = MEMORY_SIZE_UNITREF;              //unitref
-        memoryTypeSize[MEMORY_TYPE_REVEALER]            = MEMORY_SIZE_REVEALER;             //revealer
-        memoryTypeSize[MEMORY_TYPE_WAVE]                = MEMORY_SIZE_WAVE;                 //wave
-        memoryTypeSize[MEMORY_TYPE_WAVEINFO]            = MEMORY_SIZE_WAVEINFO;             //waveinfo
-        memoryTypeSize[MEMORY_TYPE_WAVETARGET]          = MEMORY_SIZE_WAVETARGET;           //wavetarget
-        memoryTypeSize[MEMORY_TYPE_DELEGATE]            = MEMORY_SIZE_DELEGATE;             //funcref<delegate>
-
-        memoryTypeName[MEMORY_TYPE_ABILCMD]             = "abilcmd";              //abilcmd
-        memoryTypeName[MEMORY_TYPE_AIFILTER]            = "aifilter";             //aifilter
-        memoryTypeName[MEMORY_TYPE_ACTOR]               = "actor";                //actor
-        memoryTypeName[MEMORY_TYPE_BOOL]                = "bool";                 //bool
-        memoryTypeName[MEMORY_TYPE_BANK]                = "bank";                 //bank
-        memoryTypeName[MEMORY_TYPE_BYTE]                = "byte";                 //byte
-        memoryTypeName[MEMORY_TYPE_CAMERAINFO]          = "camerainfo";           //camerainfo
-        memoryTypeName[MEMORY_TYPE_COLOR]               = "color";                //color
-        memoryTypeName[MEMORY_TYPE_DOODAD]              = "doodad";               //doodad
-        memoryTypeName[MEMORY_TYPE_FIXED]               = "fixed";                //fixed
-        memoryTypeName[MEMORY_TYPE_INT]                 = "int";                  //int
-        memoryTypeName[MEMORY_TYPE_MARKER]              = "marker";               //marker
-        memoryTypeName[MEMORY_TYPE_ORDER]               = "order";                //order
-        memoryTypeName[MEMORY_TYPE_PLAYERGROUP]         = "playergroup";          //playergroup
-        memoryTypeName[MEMORY_TYPE_POINT]               = "point";                //point
-        memoryTypeName[MEMORY_TYPE_REGION]              = "region";               //region
-        memoryTypeName[MEMORY_TYPE_SOUND]               = "sound";                //sound
-        memoryTypeName[MEMORY_TYPE_SOUNDLINK]           = "soundlink";            //soundlink
-        memoryTypeName[MEMORY_TYPE_STRING]              = "string";               //string
-        memoryTypeName[MEMORY_TYPE_TEXT]                = "text";                 //text
-        memoryTypeName[MEMORY_TYPE_TIMER]               = "timer";                //timer
-        memoryTypeName[MEMORY_TYPE_TRANSMISSIONSOURCE]  = "transmissionsource";   //transmissionsource
-        memoryTypeName[MEMORY_TYPE_TRIGGER]             = "trigger";              //trigger
-        memoryTypeName[MEMORY_TYPE_UNIT]                = "unit";                 //unit
-        memoryTypeName[MEMORY_TYPE_UNITFILTER]          = "unitfilter";           //unitfilter
-        memoryTypeName[MEMORY_TYPE_UNITGROUP]           = "unitgroup";            //unitgroup
-        memoryTypeName[MEMORY_TYPE_UNITREF]             = "unitref";              //unitref
-        memoryTypeName[MEMORY_TYPE_REVEALER]            = "revealer";             //revealer
-        memoryTypeName[MEMORY_TYPE_WAVE]                = "wave";                 //wave
-        memoryTypeName[MEMORY_TYPE_WAVEINFO]            = "waveinfo";             //waveinfo
-        memoryTypeName[MEMORY_TYPE_WAVETARGET]          = "wavetarget";           //wavetarget
-        memoryTypeName[MEMORY_TYPE_DELEGATE]            = "delegate";             //delegate
+		mem_name[mem_type_abilcmd]          	= "abilcmd";
+		mem_name[mem_type_actor]          		= "actor";
+		mem_name[mem_type_actorscope]       	= "actorscope";
+		mem_name[mem_type_aifilter]         	= "aifilter";
+		mem_name[mem_type_bank]             	= "bank";
+		mem_name[mem_type_bool]             	= "bool";
+		mem_name[mem_type_byte]             	= "byte";
+		mem_name[mem_type_camerainfo]       	= "camerainfo";
+		mem_name[mem_type_color]            	= "color";
+		mem_name[mem_type_doodad]           	= "doodad";
+		mem_name[mem_type_fixed]            	= "fixed";
+		mem_name[mem_type_int]              	= "int";
+		mem_name[mem_type_marker]           	= "marker";
+		mem_name[mem_type_order]            	= "order";
+		mem_name[mem_type_playergroup]      	= "playergroup";
+		mem_name[mem_type_point]            	= "point";
+		mem_name[mem_type_region]           	= "region";
+		mem_name[mem_type_revealer]         	= "revealer";
+		mem_name[mem_type_sound]            	= "sound";
+		mem_name[mem_type_soundlink]        	= "soundlink";
+		mem_name[mem_type_string]           	= "string";
+		mem_name[mem_type_text]             	= "text";
+		mem_name[mem_type_timer]            	= "timer";
+		mem_name[mem_type_transmissionsource]	= "transmissionsource";
+		mem_name[mem_type_trigger]         		= "trigger";
+		mem_name[mem_type_unit]             	= "unit";
+		mem_name[mem_type_unitfilter]       	= "unitfilter";
+		mem_name[mem_type_unitgroup]        	= "unitgroup";
+		mem_name[mem_type_unitref]          	= "unitref";
+		mem_name[mem_type_wave]             	= "wave";
+		mem_name[mem_type_waveinfo]         	= "waveinfo";
+		mem_name[mem_type_wavetarget]       	= "wavetarget";
     } //initializeMemoryTypeAddresses
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//  - memory instance count
+//
+//		arrays allocate from the left
+//		scalars allocate from the right
+//
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+static int[mem_type_count] mem_l;
+static int[mem_type_count] mem_r;
+
+static void init_mem_alloc_new() {
+	int type = 0;
 	
-    int getMemoryType(int pointer) {
-        int min = 0;
-        int max = MEMORY_TYPE_COUNT - 1;
-        int mid;
+	while (type < mem_type_count) {
+		mem_l[type] = 1;
+		mem_r[type] = mem_size[type];
+		type = type + 1;
+	} //while
+} //initializeMemoryInstanceCount
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//  - stack
+//
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+	static int[mem_type_count] stack;
+	static int stack_ptr = 0;
+	
+	static void mem_push_ptr(int ptr) {
+		mem_int[ptr] = stack_ptr;
+		stack_ptr = ptr;
+	} //mem_push_ptr
+	static int mem_pop_ptr() {
+		int ptr;
 		
-        while (min < max) {
-            mid = (min + max) >> 1;
-
-            if (pointer >= memoryTypeStartAddress[mid] + memoryTypeSize[mid]) {
-                min = mid + 1;
-            } //if
-            else {
-                max = mid;
-            } //else
-        } //while
-
-        if (max  == min && pointer < memoryTypeStartAddress[min] + memoryTypeSize[min] && pointer >= memoryTypeStartAddress[min]) {
-            return min;
-        } //if
-        
-        return -1;
-    } //getMemoryType
-	
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-//
-//  - pointer manipulation
-//
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-    //used to manipulate memory blocks directly
-    int getMemoryBlockAddress(int pointer, int memoryType)          { return pointer - memoryTypeStartAddress[memoryType]; }
-    int getPointerAddress(int memoryBlockAddress, int memoryType)   { return memoryBlockAddress + memoryTypeStartAddress[memoryType]; }
-	
-    int         sizeof  (int pointer)               { return    DataTableGetInt(true, "MEMORY_ARR_SIZE" + IntToString(pointer)); }
-    static void setSize (int pointer, int size)     {           DataTableSetInt(true, "MEMORY_ARR_SIZE" + IntToString(pointer), size); }
-	
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-//
-//  - memory read/write
-//
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-    abilcmd             readAbilcmd             (int pointer) { return memoryAbilcmd            [getMemoryBlockAddress(pointer, MEMORY_TYPE_ABILCMD)]; }
-    aifilter            readAifilter            (int pointer) { return memoryAifilter           [getMemoryBlockAddress(pointer, MEMORY_TYPE_AIFILTER)]; }
-    actor               readActor               (int pointer) { return memoryActor              [getMemoryBlockAddress(pointer, MEMORY_TYPE_ACTOR)]; }
-    bool                readBool                (int pointer) { return memoryBool               [getMemoryBlockAddress(pointer, MEMORY_TYPE_BOOL)]; }
-    bank                readBank                (int pointer) { return memoryBank               [getMemoryBlockAddress(pointer, MEMORY_TYPE_BANK)]; }
-    byte                readByte                (int pointer) { return memoryByte               [getMemoryBlockAddress(pointer, MEMORY_TYPE_BYTE)]; }
-    camerainfo          readCamerainfo          (int pointer) { return memoryCamerainfo         [getMemoryBlockAddress(pointer, MEMORY_TYPE_CAMERAINFO)]; }
-    color               readColor               (int pointer) { return memoryColor              [getMemoryBlockAddress(pointer, MEMORY_TYPE_COLOR)]; }
-    doodad              readDoodad              (int pointer) { return memoryDoodad             [getMemoryBlockAddress(pointer, MEMORY_TYPE_DOODAD)]; }
-    fixed               readFixed               (int pointer) { return memoryFixed              [getMemoryBlockAddress(pointer, MEMORY_TYPE_FIXED)]; }
-    int                 readInt                 (int pointer) { return memoryInt                [getMemoryBlockAddress(pointer, MEMORY_TYPE_INT)]; }
-    marker              readMarker              (int pointer) { return memoryMarker             [getMemoryBlockAddress(pointer, MEMORY_TYPE_MARKER)]; }
-    order               readOrder               (int pointer) { return memoryOrder              [getMemoryBlockAddress(pointer, MEMORY_TYPE_ORDER)]; }
-    playergroup         readPlayergroup         (int pointer) { return memoryPlayergroup        [getMemoryBlockAddress(pointer, MEMORY_TYPE_PLAYERGROUP)]; }
-    point               readPoint               (int pointer) { return memoryPoint              [getMemoryBlockAddress(pointer, MEMORY_TYPE_POINT)]; }
-    region              readRegion              (int pointer) { return memoryRegion             [getMemoryBlockAddress(pointer, MEMORY_TYPE_REGION)]; }
-    sound               readSound               (int pointer) { return memorySound              [getMemoryBlockAddress(pointer, MEMORY_TYPE_SOUND)]; }
-    soundlink           readSoundlink           (int pointer) { return memorySoundlink          [getMemoryBlockAddress(pointer, MEMORY_TYPE_SOUNDLINK)]; }
-    string              readString              (int pointer) { return memoryString             [getMemoryBlockAddress(pointer, MEMORY_TYPE_STRING)]; }
-    text                readText                (int pointer) { return memoryText               [getMemoryBlockAddress(pointer, MEMORY_TYPE_TEXT)]; }
-    timer               readTimer               (int pointer) { return memoryTimer              [getMemoryBlockAddress(pointer, MEMORY_TYPE_TIMER)]; }
-    transmissionsource  readTransmissionsource  (int pointer) { return memoryTransmissionsource [getMemoryBlockAddress(pointer, MEMORY_TYPE_TRANSMISSIONSOURCE)]; }
-    trigger             readTrigger             (int pointer) { return memoryTrigger            [getMemoryBlockAddress(pointer, MEMORY_TYPE_TRIGGER)]; }
-    unit                readUnit                (int pointer) { return memoryUnit               [getMemoryBlockAddress(pointer, MEMORY_TYPE_UNIT)]; }
-    unitfilter          readUnitfilter          (int pointer) { return memoryUnitfilter         [getMemoryBlockAddress(pointer, MEMORY_TYPE_UNITFILTER)]; }
-    unitgroup           readUnitgroup           (int pointer) { return memoryUnitgroup          [getMemoryBlockAddress(pointer, MEMORY_TYPE_UNITGROUP)]; }
-    unitref             readUnitref             (int pointer) { return memoryUnitref            [getMemoryBlockAddress(pointer, MEMORY_TYPE_UNITREF)]; }
-    revealer            readRevealer            (int pointer) { return memoryRevealer           [getMemoryBlockAddress(pointer, MEMORY_TYPE_REVEALER)]; }
-    wave                readWave                (int pointer) { return memoryWave               [getMemoryBlockAddress(pointer, MEMORY_TYPE_WAVE)]; }
-    waveinfo            readWaveinfo            (int pointer) { return memoryWaveinfo           [getMemoryBlockAddress(pointer, MEMORY_TYPE_WAVEINFO)]; }
-    wavetarget          readWavetarget          (int pointer) { return memoryWavetarget         [getMemoryBlockAddress(pointer, MEMORY_TYPE_WAVETARGET)]; }
-    funcref<delegate>   readDelegate            (int pointer) { return memoryDelegate           [getMemoryBlockAddress(pointer, MEMORY_TYPE_DELEGATE)]; }
-
-    void writeAbilcmd               (int pointer, abilcmd value)            { memoryAbilcmd             [getMemoryBlockAddress(pointer, MEMORY_TYPE_ABILCMD)]            = value; }
-    void writeAifilter              (int pointer, aifilter value)           { memoryAifilter            [getMemoryBlockAddress(pointer, MEMORY_TYPE_AIFILTER)]           = value; }
-    void writeActor                 (int pointer, actor value)              { memoryActor               [getMemoryBlockAddress(pointer, MEMORY_TYPE_ACTOR)]              = value; }
-    void writeBool                  (int pointer, bool value)               { memoryBool                [getMemoryBlockAddress(pointer, MEMORY_TYPE_BOOL)]               = value; }
-    void writeBank                  (int pointer, bank value)               { memoryBank                [getMemoryBlockAddress(pointer, MEMORY_TYPE_BANK)]               = value; }
-    void writeByte                  (int pointer, byte value)               { memoryByte                [getMemoryBlockAddress(pointer, MEMORY_TYPE_BYTE)]               = value; }
-    void writeCamerainfo            (int pointer, camerainfo value)         { memoryCamerainfo          [getMemoryBlockAddress(pointer, MEMORY_TYPE_CAMERAINFO)]         = value; }
-    void writeColor                 (int pointer, color value)              { memoryColor               [getMemoryBlockAddress(pointer, MEMORY_TYPE_COLOR)]              = value; }
-    void writeDoodad                (int pointer, doodad value)             { memoryDoodad              [getMemoryBlockAddress(pointer, MEMORY_TYPE_DOODAD)]             = value; }
-    void writeFixed                 (int pointer, fixed value)              { memoryFixed               [getMemoryBlockAddress(pointer, MEMORY_TYPE_FIXED)]              = value; }
-    void writeInt                   (int pointer, int value)                { memoryInt                 [getMemoryBlockAddress(pointer, MEMORY_TYPE_INT)]                = value; }
-    void writeMarker                (int pointer, marker value)             { memoryMarker              [getMemoryBlockAddress(pointer, MEMORY_TYPE_MARKER)]             = value; }
-    void writeOrder                 (int pointer, order value)              { memoryOrder               [getMemoryBlockAddress(pointer, MEMORY_TYPE_ORDER)]              = value; }
-    void writePlayergroup           (int pointer, playergroup value)        { memoryPlayergroup         [getMemoryBlockAddress(pointer, MEMORY_TYPE_PLAYERGROUP)]        = value; }
-    void writePoint                 (int pointer, point value)              { memoryPoint               [getMemoryBlockAddress(pointer, MEMORY_TYPE_POINT)]              = value; }
-    void writeRegion                (int pointer, region value)             { memoryRegion              [getMemoryBlockAddress(pointer, MEMORY_TYPE_REGION)]             = value; }
-    void writeSound                 (int pointer, sound value)              { memorySound               [getMemoryBlockAddress(pointer, MEMORY_TYPE_SOUND)]              = value; }
-    void writeSoundlink             (int pointer, soundlink value)          { memorySoundlink           [getMemoryBlockAddress(pointer, MEMORY_TYPE_SOUNDLINK)]          = value; }
-    void writeString                (int pointer, string value)             { memoryString              [getMemoryBlockAddress(pointer, MEMORY_TYPE_STRING)]             = value; }
-    void writeText                  (int pointer, text value)               { memoryText                [getMemoryBlockAddress(pointer, MEMORY_TYPE_TEXT)]               = value; }
-    void writeTimer                 (int pointer, timer value)              { memoryTimer               [getMemoryBlockAddress(pointer, MEMORY_TYPE_TIMER)]              = value; }
-    void writeTransmissionsource    (int pointer, transmissionsource value) { memoryTransmissionsource  [getMemoryBlockAddress(pointer, MEMORY_TYPE_TRANSMISSIONSOURCE)] = value; }
-    void writeTrigger               (int pointer, trigger value)            { memoryTrigger             [getMemoryBlockAddress(pointer, MEMORY_TYPE_TRIGGER)]            = value; }
-    void writeUnit                  (int pointer, unit value)               { memoryUnit                [getMemoryBlockAddress(pointer, MEMORY_TYPE_UNIT)]               = value; }
-    void writeUnitfilter            (int pointer, unitfilter value)         { memoryUnitfilter          [getMemoryBlockAddress(pointer, MEMORY_TYPE_UNITFILTER)]         = value; }
-    void writeUnitgroup             (int pointer, unitgroup value)          { memoryUnitgroup           [getMemoryBlockAddress(pointer, MEMORY_TYPE_UNITGROUP)]          = value; }
-    void writeUnitref               (int pointer, unitref value)            { memoryUnitref             [getMemoryBlockAddress(pointer, MEMORY_TYPE_UNITREF)]            = value; }
-    void writeRevealer              (int pointer, revealer value)           { memoryRevealer            [getMemoryBlockAddress(pointer, MEMORY_TYPE_REVEALER)]           = value; }
-    void writeWave                  (int pointer, wave value)               { memoryWave                [getMemoryBlockAddress(pointer, MEMORY_TYPE_WAVE)]               = value; }
-    void writeWaveinfo              (int pointer, waveinfo value)           { memoryWaveinfo            [getMemoryBlockAddress(pointer, MEMORY_TYPE_WAVEINFO)]           = value; }
-    void writeWavetarget            (int pointer, wavetarget value)         { memoryWavetarget          [getMemoryBlockAddress(pointer, MEMORY_TYPE_WAVETARGET)]         = value; }
-    void writeDelegate              (int pointer, funcref<delegate> value)  { memoryDelegate            [getMemoryBlockAddress(pointer, MEMORY_TYPE_DELEGATE)]           = value; }
-
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-//
-//  - free memory
-//
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-    static int[MEMORY_TYPE_COUNT] releasedMemory;
-	
-	static void initializeHeaps() {
-		int memoryType = 0;
+		if (stack_ptr == 0) {
+			ptr = mem_r[mem_type_int] - 2;
+			if (ptr <= mem_l[mem_type_int]) { return 0; }
+			mem_r[mem_type_int] = ptr;
+		} //if
+		else {
+			ptr = stack_ptr;
+			stack_ptr = mem_int[ptr];
+		} //else
 		
-		while (memoryType < MEMORY_TYPE_COUNT) {
-			heapInsert(memoryTypeStartAddress[memoryType], memoryTypeSize[memoryType], memoryTypeName[memoryType], memoryTypeStartAddress[memoryType], 0);
-			releasedMemory[memoryType] = memoryTypeSize[memoryType];
+		return ptr;
+	} //mem_pop_ptr
+	
+	static bool ptr_pop_dat(int ptr, int type, int size) {
+		int dat;
 		
-			memoryType = memoryType + 1;
-		} //while
+		if (1 == size) {
+			dat = mem_r[type] - 1;
+			if (dat <= mem_l[type]) {
+				mem_push_ptr(ptr);
+				return false;
+			}
+			mem_r[type] = dat;
+		} //if
+		else {
+			dat = mem_l[type];
+			if (dat + size >= mem_r[type]) {
+				mem_push_ptr(ptr);
+				return false;
+			}
+			mem_l[type] = dat + size;
+		} //else
+		
+		mem_int[ptr] = (dat << 1) + 1 << 12;
+		mem_int[ptr + 1] = ((size << 1) + 1 << 12) + type;
+		
+		return true;
 	}
+	
+	int mem_pop(int type) {
+		int ptr = stack[type];
+		int dat;
+
+		if (ptr == -1) {
+			ptr = mem_pop_ptr();
+			if (0 == ptr || !ptr_pop_dat(ptr, type, 1)) { return 0; }
+		} //if
+		else {
+			stack[type] = mem_int[ptr + 1];
+			mem_int[ptr + 1] = (1 << 13) + type;
+		} //else
+		
+		mem_int[ptr] = (mem_int[ptr] >> 12 << 12) + 1;
+		
+		return ptr;
+	} //getPointer
+	
+	void mem_push(int ptr) {
+		int type = 4096 + (mem_int[ptr + 1] << 19 >> 19);
+		mem_int[ptr + 1] = stack[type];
+		stack[type] = ptr;
+	} //pushPointer
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//  - heap
+//
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+	static const int heap_sz_mx = mem_size_int/10;
+	static int[heap_sz_mx] heap;
+	static int heap_sz = 0;
+	
+	static void heap_bubbleDown(int pos) {
+		int ptr = heap[pos];
+		int ptr_sz = mem_int[ptr + 1];
+	
+		int ptr_l;
+		int ptr_r;
+		
+		int ptr_l_sz;
+		int ptr_r_sz;
+
+		while (pos < heap_sz) {
+			ptr_l = heap[pos << 1];
+			ptr_r = heap[(pos << 1) + 1];
+			ptr_l_sz = mem_int[ptr_l + 1];
+			ptr_r_sz = mem_int[ptr_r + 1];
+		
+			if (ptr_l_sz > ptr_sz && ptr_l_sz >= ptr_r_sz) {
+				heap[pos] = ptr_l;
+				pos = pos << 1;
+			} //if
+			else if (ptr_r_sz > ptr_sz) {
+				heap[pos] = ptr_r;
+				pos = (pos << 1) + 1;
+			} //else if
+			else {
+				break;
+			} //else
+		} //while
+
+		heap[pos] = ptr;
+	} //bubbleDown
+	
+	static void heap_bubbleUp(int pos) {
+		int ptr = heap[pos];
+		int ptr_sz = mem_int[ptr + 1];
+		int pos_p  = pos >> 1;
+		int ptr_p   = heap[pos_p];
+
+		while (0 != pos_p && mem_int[ptr_p + 1] < ptr_sz) {
+			heap[pos] = ptr_p;
+			
+			pos = pos_p;
+			pos_p = pos_p >> 1;
+			ptr_p = heap[pos_p];
+		} //while
+
+		heap[pos] = ptr;
+	} //bubbleUp
+	
+	static void heap_pop() {
+		heap[1] = heap[heap_sz];
+		heap[heap_sz] = 0;
+		heap_sz = heap_sz - 1;
+		heap_bubbleDown(1);
+	} //heapPop
+	
+	static void heap_compact() {
+		int pos = 1;
+		int pos2;
+		
+		int ptr;
+		int ptr2;
+		
+		bool merged = false;
+		
+		while (pos <= heap_sz) {
+			DataTableSetInt(false, IntToString(mem_int[heap[pos]] >> 13), pos);
+			pos = pos + 1;
+		} //while
+		
+		pos = 1;
+		while (pos <= heap_sz) {
+			ptr = heap[pos];
+			pos2 = DataTableGetInt(false, IntToString((mem_int[ptr] >> 13) + (mem_int[ptr + 1] >> 13)));
+			
+			if (pos2 != 0) {
+				merged = true;
+			
+				if (mem_int[ptr] < mem_int[heap[pos2]]) {
+					ptr = heap[pos];
+					ptr2 = heap[pos2];
+				} //if
+				else {
+					ptr = heap[pos2];
+					ptr2 = heap[pos];
+				} //else
+				
+				heap[pos] = ptr;
+				heap[pos2] = heap[heap_sz];
+				heap_sz = heap_sz - 1;
+				
+				heap_bubbleUp(pos2);
+				heap_bubbleDown(pos2);
+				
+				mem_int[ptr + 1] = ((((mem_int[ptr + 1] >> 13) + (mem_int[ptr2 + 1] >> 13)) << 1) + 1 << 12) + 4096 + (mem_int[ptr + 1] << 19 >> 19);
+				
+				mem_push_ptr(ptr2);
+			} //if
+			else if (merged) {
+					heap_bubbleUp(pos);
+					merged = false;
+					
+					if (heap[pos] == ptr) { pos = pos + 1; }
+				} //if
+			else {
+				pos = pos + 1;
+			} //else
+		} //while
+		
+		if (heap_sz != 1) { pos = 0/0; }
+	}
+	
+	void heap_push(int ptr) {
+		int t1;
+		int t2;
+	
+		heap_sz = heap_sz + 1;
+		heap[heap_sz] = ptr;
+		heap_bubbleUp(heap_sz);
+		
+		t1 = mem_int[ptr];
+		t2 = mem_int[ptr + 1];
+		
+		if (t1 == 0 || t2 == 0) { ptr = 0/0; }
+	} //heapPush
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//
+//  - destructor creation
+//
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+	static int free_count = 0;
+	
+	int mem_gen_free(funcref<free> f) {
+		mem_free[free_count] = f;
+		free_count = free_count + 1;
+		return free_count - 1;
+	} //mem_gen_free
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //
 //  - memory allocation
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-    int allocate(int size, int memoryType) {
-        int pointer;
-        int memorySize;
+    int malloc(int size, int type) {
+        int ptr;
+		int h_ptr;
+		int h_sz;
 		
-		if (!systemEnabled) {
-			return 0/0;
-		} //if
-
-        if (memoryType < 0 || memoryType >= MEMORY_TYPE_COUNT) {
-            TriggerDebugOutput(1, StringToText("ALLOCATE FAILURE: ATTEMPT TO ALLOCATE INVALID MEMORY TYPE: (") + IntToText(memoryType) + StringToText(")"), false);
-			systemEnabled = false;
-            return 0/0;
-        } //if
+		int t1;
+		int t2;
+		int t3;
+		int t4;
+		int t5;
 		
-		pointer = heapGetFirst(memoryTypeName[memoryType]);
-		if (pointer < memoryTypeStartAddress[memoryType] || pointer >= memoryTypeStartAddress[memoryType] + memoryTypeSize[memoryType]) {
-			TriggerDebugOutput(1, StringToText("ALLOCATION HEAP CORRUPTION: (") + StringToText(memoryTypeName[memoryType]) + StringToText(")"), false);
-			TriggerDebugOutput(1, IntToText(pointer), false);
-			systemEnabled = false;
-			return 0/0;
-        } //if
-		
-		memorySize = heapGetWeight(pointer);
-		
-        if (memorySize < size) {
-			TriggerDebugOutput(1, StringToText("ALLOCATE FAILURE: (") + StringToText(memoryTypeName[memoryType]) + StringToText(")"), false);
-			systemEnabled = false;
-			return 0/0;
-        } //if
-		
-		if (memorySize == size) {
-			heapRemove(pointer, memoryTypeName[memoryType]);
-		} //if
+		if (size == 1) {
+			ptr = mem_pop(type);
+			if (0 == ptr) { return 0/0; }
+		}
 		else {
-			heapChangeWeight(pointer, memorySize - size, memoryTypeName[memoryType]);
-			pointer = pointer + memorySize - size;
+			if (heap_sz == 0 || mem_int[heap[1] + 1] >> 13 < size) {
+				ptr = mem_pop_ptr();
+				
+				if (0 == ptr || !ptr_pop_dat(ptr, type, size)) {
+					if (heap_sz == 0) { return 0/0; }
+					
+					heap_compact();
+					
+					if (mem_int[heap[1] + 1] >> 13 < size) {
+						return 0/0;
+					} //if
+				}
+			} //if
+			
+			if (ptr == 0) {
+				h_ptr = heap[1];
+				h_sz = mem_int[h_ptr + 1] >> 13;
+				t4 = mem_int[h_ptr];
+				t5 = mem_int[h_ptr + 1];
+				if (h_sz > size) {
+					ptr = mem_pop_ptr();
+					if (0 == ptr) { return 0/0; }
+					
+					mem_int[ptr] = mem_int[h_ptr];
+					mem_int[h_ptr] = ((mem_int[h_ptr] >> 13) + size << 1) + 1 << 12;
+					mem_int[h_ptr + 1] = ((h_sz - size << 1) + 1 << 12) + type;
+					
+					heap_bubbleDown(1);
+				} //if
+				else {
+					ptr = h_ptr;
+					heap_pop();
+					
+					t4 = mem_int[ptr];
+					if (t4 == 0) { return 0/0; }
+				} //else
+			} //else
+			
+			t4 = mem_int[ptr];
+			if (t4 == 0) { return 0/0; }
+			
+			mem_int[ptr] = mem_int[ptr] >> 12 << 12;
+			mem_int[ptr + 1] = ((size << 1) + 1 << 12) + type;
 		} //else
-
-		releasedMemory[memoryType] = releasedMemory[memoryType] - size;
-		setSize(pointer, size);
 		
-        return pointer;
-    } //allocate
+		t1 = sizeof(ptr);
+		t2 = typeof(ptr);
+		t3 = 4096 + (mem_int[ptr]  << 19 >> 19);
+		t4 = mem_int[ptr];
+		t5 = mem_int[ptr + 1];
+		
+		if (t1 != size) { return 0/0; }
+		if (t2 != type) { return 0/0; }
+		if (t3 != 0) { return 0/0; }
+		
+        return ptr;
+    } //malloc
 	
-	void deallocateEx(int pointer, int memoryType) {
-		int size;
-		
-		if (!systemEnabled) {
-			size = 0/0;
-		} //if
-		
-		if (memoryType == MEMORY_TYPE_INVALID) {
-            TriggerDebugOutput(1, StringToText("ATTEMPT TO DEALLOCATE OUT OF BOUNDS POINTER: (") + IntToText(pointer) + StringToText(")"), false);
-			systemEnabled = false;
-            size = 0/0;
-        } //if
-		
-		size = sizeof(pointer);
-		if (size == 0) {
-            TriggerDebugOutput(1, StringToText("ATTEMPT TO DEALLOCATE NULL POINTER: (") + StringToText(memoryTypeName[memoryType]) + StringToText(") (") + IntToText(pointer) + StringToText(")"), false);
-			systemEnabled = false;
-            size = 0/0;
-        } //if
-		
-		setSize(pointer, 0);
-
-		heapInsert(pointer, size, memoryTypeName[memoryType], memoryTypeStartAddress[memoryType], memoryTypeStartAddress[memoryType] + memoryTypeSize[memoryType] - 1);
-		
-        releasedMemory[memoryType] = releasedMemory[memoryType] + size;
-	} //deallocateEx
-
-    void deallocate(int pointer) {
-        deallocateEx(pointer, getMemoryType(pointer));
-    } //deallocate
+	static void free_arr(int ptr) { heap_push(ptr); }
+	
+	int sizeof(int ptr) { return mem_int[ptr + 1] >> 13; }
+	int typeof(int ptr) { return 4096 + (mem_int[ptr + 1] << 19 >> 19); }
+	int datof(int ptr) { return mem_int[ptr] >> 13; }
+	
+	void set_dest(int ptr, int dest) { mem_int[ptr] = (mem_int[ptr] >> 12 << 12) + dest; }
+	void set_type(int ptr, int type) { mem_int[ptr + 1] = (mem_int[ptr + 1] >> 12 << 12) + type; }
+	
+	void free(int ptr) { mem_free[4096 + (mem_int[ptr] << 19 >> 19)](ptr); }
+	
+	void freeEx(int ptr, int type) {
+		mem_int[ptr + 1] = (mem_int[ptr + 1] >> 12 << 12) + type;
+		if (mem_int[ptr + 1] >> 13 == 1)	{ mem_push(ptr); 	}
+		else 								{ heap_push(ptr); 	}
+	}
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //
 //  - debug
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-int getRemainingMemory			(int memoryType) { return releasedMemory[memoryType]; }
-int getBiggestAllocBlock		(int memoryType) { return heapGetWeight(heapGetFirst(memoryTypeName[memoryType])); }
-void printMemoryRemaining       (int memoryType) { TriggerDebugOutput(1, StringToText("Memory Remaining (") + StringToText(memoryTypeName[memoryType]) + StringToText("): ") + IntToText(getRemainingMemory(memoryType)), false); }
-void printMemoryUsed            (int memoryType) { TriggerDebugOutput(1, StringToText("Memory Usage (") + StringToText(memoryTypeName[memoryType]) + StringToText("): ") + IntToText(memoryTypeSize[memoryType] - releasedMemory[memoryType]), false); }
-void printMemoryUsedPercent     (int memoryType) { TriggerDebugOutput(1, StringToText("Memory Usage (") + StringToText(memoryTypeName[memoryType]) + StringToText("): ") + FixedToText(IntToFixed(memoryTypeSize[memoryType] - releasedMemory[memoryType])/IntToFixed(memoryTypeSize[memoryType])*100, 2) + StringToText("%"), false); }
-void printHeapSize              (int memoryType) { TriggerDebugOutput(1, StringToText("Heap Size (") + StringToText(memoryTypeName[memoryType]) + StringToText("): ") + IntToText(heapGetSize(memoryTypeName[memoryType])), false); }
+//int getRemainingMemory			(int memoryType) { return releasedMemory[memoryType]; }
+//int getBiggestAllocBlock			(int memoryType) { return heapGetWeight(heapGetFirst(memoryTypeName[memoryType])); }
+//void printMemoryRemaining       	(int memoryType) { TriggerDebugOutput(1, StringToText("Memory Remaining (") + StringToText(memoryTypeName[memoryType]) + StringToText("): ") + IntToText(getRemainingMemory(memoryType)), false); }
+//void printMemoryUsed            	(int memoryType) { TriggerDebugOutput(1, StringToText("Memory Usage (") + StringToText(memoryTypeName[memoryType]) + StringToText("): ") + IntToText(memoryTypeSize[memoryType] - releasedMemory[memoryType]), false); }
+//void printMemoryUsedPercent     	(int memoryType) { TriggerDebugOutput(1, StringToText("Memory Usage (") + StringToText(memoryTypeName[memoryType]) + StringToText("): ") + FixedToText(IntToFixed(memoryTypeSize[memoryType] - releasedMemory[memoryType])/IntToFixed(memoryTypeSize[memoryType])*100, 2) + StringToText("%"), false); }
+//void printHeapSize              	(int memoryType) { TriggerDebugOutput(1, StringToText("Heap Size (") + StringToText(memoryTypeName[memoryType]) + StringToText("): ") + IntToText(heapGetSize(memoryTypeName[memoryType])), false); }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //
 //  - initialization
 //
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-    void initializeMemoryAllocation() {
-            initializeMemoryTypeAddresses();
-            initializeHeaps();
-    } //initializeMemoryAllocation
+	void init_mem_alloc() {
+		mem_gen_free(free_arr);
+		mem_gen_free(mem_push);
+	
+		init_mem();
+		init_mem_alloc_new();
+	} //initializeMemoryAllocation
