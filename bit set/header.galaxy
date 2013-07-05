@@ -15,7 +15,7 @@
 //
 //		_M
 //
-//			works with bitmap (position of bit does not change)
+//			works with mask (position of bit does not change)
 //
 //				get bit at position 4 in 1101101011001
 //
