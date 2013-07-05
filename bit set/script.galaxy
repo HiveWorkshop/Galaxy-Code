@@ -1,0 +1,7 @@
+byte getBit(byte bits, byte index) 		{ return bits & (H_01 << index);		}
+byte setBit(byte bits, byte index) 		{ return bits | (H_01 << index);		}
+byte clearBit(byte bits, byte index) 	{ return bits & (~H_01 << index);		}
+
+int getBitInt(int bits, byte index)		{ return bits & (1 << index);			}
+int setBitInt(int bits, byte index)		{ return bits | (1 << index); 			}
+int clearBitInt(int bits, byte index)	{ return bits & (~1 << index);			}
